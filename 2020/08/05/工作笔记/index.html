@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"sdlbp.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":"ture","mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="记录了日常工作中值得记录的内容chrome 网络请求错误以及排查 - 20200908d3.js 树图的实现 - 20200805mapbox 异常点的处理 - 20200805">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工作笔记">
+<meta property="og:url" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="lbp的blog">
+<meta property="og:description" content="记录了日常工作中值得记录的内容chrome 网络请求错误以及排查 - 20200908d3.js 树图的实现 - 20200805mapbox 异常点的处理 - 20200805">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/chromebug.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/chromereport.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/gis1.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/gis2.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree1.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree2.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree0.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/l0.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree3.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/formatTree.png">
+<meta property="article:published_time" content="2020-08-05T07:32:09.000Z">
+<meta property="article:modified_time" content="2020-09-08T12:27:29.000Z">
+<meta property="article:author" content="lbp">
+<meta property="article:tag" content="工作">
+<meta property="article:tag" content="d3">
+<meta property="article:tag" content="mapbox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/chromebug.png">
+
+<link rel="canonical" href="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>工作笔记 | lbp的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">lbp的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习日常</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lbp">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lbp的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          工作笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-05 15:32:09 15:32:09" itemprop="dateCreated datePublished" datetime="2020-08-05T15:32:09+08:00">2020-08-05 15:32:09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-08 20:27:29 20:27:29" itemprop="dateModified" datetime="2020-09-08T20:27:29+08:00">2020-09-08 20:27:29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E4%BD%9C/" itemprop="url" rel="index"><span itemprop="name">工作</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>记录了日常工作中值得记录的内容<br>chrome 网络请求错误以及排查 - 20200908<br>d3.js 树图的实现 - 20200805<br>mapbox 异常点的处理 - 20200805 </p>
+</blockquote>
+<a id="more"></a>
+<h1 id="chrome-网络请求错误以及排查-20200908"><a href="#chrome-网络请求错误以及排查-20200908" class="headerlink" title="chrome 网络请求错误以及排查 - 20200908"></a>chrome 网络请求错误以及排查 - 20200908</h1><p>在实际项目中，遇到的一个chrome bug，具有一定的误导性。bug的复现的必要条件如下：</p>
+<ul>
+<li>chrome -&gt; network -&gt; disable cache 取消勾选</li>
+<li>使用 <code>img</code> 标签和 <code>XMLHttpRequest</code> 请求同一个图片（保证这个图片之前没有请求过）<br>简化代码如下：<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"codepen"</span> <span class="attr">data-height</span>=<span class="string">"265"</span> <span class="attr">data-theme-id</span>=<span class="string">"dark"</span> <span class="attr">data-default-tab</span>=<span class="string">"html,result"</span> <span class="attr">data-user</span>=<span class="string">"sdlbp"</span> <span class="attr">data-slug-hash</span>=<span class="string">"qBZxmOQ"</span> <span class="attr">data-preview</span>=<span class="string">"true"</span> <span class="attr">style</span>=<span class="string">"height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"</span> <span class="attr">data-pen-title</span>=<span class="string">"chrome bug demo"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>See the Pen <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io/sdlbp/pen/qBZxmOQ"</span>&gt;</span></span><br><span class="line">  chrome bug demo<span class="tag">&lt;/<span class="name">a</span>&gt;</span> by liubaopeng (<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io/sdlbp"</span>&gt;</span>@sdlbp<span class="tag">&lt;/<span class="name">a</span>&gt;</span>)</span><br><span class="line">  on <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io"</span>&gt;</span>CodePen<span class="tag">&lt;/<span class="name">a</span>&gt;</span>.<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://static.codepen.io/assets/embed/ei.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>在这种情况下， chrome 会提示一个关于 <code>cors</code> 的错误信息。如下所示(截图来自实际项目中截图，上面代码提示错误类似)：<br><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/chromebug.png" alt="chrome 中的错误提示"></p>
+<p>细心的读者可能这个时候就会疑问了，为什么明明两个请求，一个成功，另外错误，提示跨域。</p>
+<p>这个问题在我们当时开发的场景下比较诡异：</p>
+<ul>
+<li>有些同学的浏览器是两个请求都可以正常加载</li>
+<li>不能正常加载的同学，是一个提示了跨域，但是另外一个可以正常展示。而且在oss上已经针对跨域进行了配置</li>
+</ul>
+<p>基本情况就是这样，那么是什么原因造成的呢？你有答案吗。</p>
+<p>针对这个问题，最后借助的 <code>chrome://net-export/#</code> 进行了分析，发现原来是 <code>XMLHttpRequest</code> 的请求走了缓存，但是这个时候其实是没有缓存数据的。所以报错了，比较诡异的是报 <code>cors</code> ， 个人认为是 chrome的bug。<br><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/chromereport.png" alt="chrome 网络请求分析"></p>
+<p>所以，针对这个问题解决方案就很明了了。<br>只要区分两个相同的请求就可以，我们是在第二次请求中挂了 <code>query 参数</code>。</p>
+<h1 id="mapbox-异常点的处理-20200805"><a href="#mapbox-异常点的处理-20200805" class="headerlink" title="mapbox 异常点的处理 - 20200805"></a>mapbox 异常点的处理 - 20200805</h1><blockquote>
+<p>背景: 服务返回的gis点有异常数据, 比如查询山东-青岛的商家gis点, 返回的数据中会有零星的其它城市坐标. 如果对这些异常坐标点不处理, 会导致用户视角体验不好</p>
+</blockquote>
+<h2 id="处理前后效果对比"><a href="#处理前后效果对比" class="headerlink" title="处理前后效果对比"></a>处理前后效果对比</h2><p><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/gis1.png" alt="gis点处理前"><br><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/gis2.png" alt="gis点处理后"><br>以上两个图片可以看出, 在 <code>gis点处理前</code> 视角没有聚焦到点较密集的区域, 在 <code>gis点处理后</code> 的视角, 较符合心里预期<br>视角的确定使用了函数 <a href="http://turfjs.org/docs/#envelope" target="_blank" rel="noopener external nofollow noreferrer">envelope</a> 确定区域, 在区域确定之后调用 <a href="https://docs.mapbox.com/mapbox-gl-js/api/map/#map#fitbounds" target="_blank" rel="noopener external nofollow noreferrer">fitBounds</a> 漫游到指定区域 </p>
+<h2 id="如何剔除异常点"><a href="#如何剔除异常点" class="headerlink" title="如何剔除异常点?"></a>如何剔除异常点?</h2><p>观察 <code>gis点处理前</code> 图片可以发现: 大多gis都是汇聚在一起, 只有零星的散落. 换句话说大多数点的距离都是差不多的, 异常点距离较远, 最终订下如下方案:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 伪代码</span></span><br><span class="line"><span class="comment">* 1. 寻找gis点中位数参考点A</span></span><br><span class="line"><span class="comment">* 2. 计算gis点距离A点距离,排序</span></span><br><span class="line"><span class="comment">* 3. 截取排序后gis点</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatGeojson</span>(<span class="params">geojson, k = <span class="number">0.9</span></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> features = <span class="built_in">Array</span>.from(geojson.features)</span><br><span class="line">        <span class="keyword">if</span> (features.length &lt;= <span class="number">10</span>) <span class="keyword">return</span> geojson</span><br><span class="line">        <span class="comment">// 欧式距离</span></span><br><span class="line">        <span class="keyword">const</span> distance = <span class="function">(<span class="params">x0, y0, x1, y1</span>) =&gt;</span> <span class="built_in">Math</span>.hypot(x1 - x0, y1 - y0)</span><br><span class="line">        <span class="comment">// 寻找中位数</span></span><br><span class="line">        <span class="keyword">const</span> lngList = features.map(<span class="function"><span class="params">v</span> =&gt;</span> v.geometry.coordinates[<span class="number">0</span>]).sort()</span><br><span class="line">        <span class="keyword">const</span> latList = features.map(<span class="function"><span class="params">v</span> =&gt;</span> v.geometry.coordinates[<span class="number">1</span>]).sort()</span><br><span class="line">        <span class="keyword">const</span> lngIndex = <span class="built_in">Math</span>.max(<span class="number">0</span>, <span class="built_in">Math</span>.floor(lngList.length / <span class="number">2</span>))</span><br><span class="line">        <span class="keyword">const</span> latIndex = <span class="built_in">Math</span>.max(<span class="number">0</span>, <span class="built_in">Math</span>.floor(latList.length / <span class="number">2</span>))</span><br><span class="line">        <span class="keyword">const</span> lngM = lngList[lngIndex]</span><br><span class="line">        <span class="keyword">const</span> latM = latList[latIndex]</span><br><span class="line">        <span class="comment">// 距离排序</span></span><br><span class="line">        features.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> distance(lngM, latM, a.geometry.coordinates[<span class="number">0</span>], a.geometry.coordinates[<span class="number">1</span>]) - distance(lngM, latM, b.geometry.coordinates[<span class="number">0</span>], b.geometry.coordinates[<span class="number">1</span>])</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">// 截取一定范围坐标点</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">          type: <span class="string">'FeatureCollection'</span>,</span><br><span class="line">          features: features.slice(<span class="number">0</span>, <span class="built_in">Math</span>.floor(features.length * k))</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实对于这个问题也可以使用电子围栏, 判断某个 gis 点是否在指定区域内.<br>就我们问题来说, 因为支持市/县 这种级别, 电子围栏对于数据的采集有一定的要求, 不如以上方式来的便捷</p>
+<h1 id="d3-js-树图的实现-20200805"><a href="#d3-js-树图的实现-20200805" class="headerlink" title="d3.js 树图的实现 - 20200805"></a>d3.js 树图的实现 - 20200805</h1><blockquote>
+<p>背景: UI设计出来的树图效果定制化程度很高, <code>echarts</code> <code>g6</code> 等可视化工具满足不了需求, 最终使用 <code>d3</code> 基本完成</p>
+</blockquote>
+<h2 id="设计-实现"><a href="#设计-实现" class="headerlink" title="设计/实现"></a>设计/实现</h2><p><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree1.png" alt="UI设计效果"><br><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree2.png" alt="最终实现效果"></p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>最终的实现效果基本是在 <a href="https://observablehq.com/@d3/collapsible-tree" target="_blank" rel="noopener external nofollow noreferrer">Collapsible Tree</a> 进行修改, 效果图如下<br><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree0.png" alt="参考模板"></p>
+<h3 id="连接线处理"><a href="#连接线处理" class="headerlink" title="连接线处理"></a>连接线处理</h3><p>从 <code>参考模板</code> 中可以看出, 连接线是首尾相接的, 但是UI图中的连接线是从一个节点的尾部开始, 连接到下一个节点的头部<br>其实对于这个问题, 经常使用 <code>d3</code> 的开发者, 在参考 <a href="https://observablehq.com/@d3/collapsible-tree" target="_blank" rel="noopener external nofollow noreferrer">Collapsible Tree</a> 基础上应该可以很快的定位出来问题所在<br>连接线的绘制使用了函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diagonal = d3.linkHorizontal().x(<span class="function"><span class="params">d</span> =&gt;</span> d.y).y(<span class="function"><span class="params">d</span> =&gt;</span> d.x)</span><br></pre></td></tr></table></figure>
+<p>直接对这个函数进行改造, 起始点位置偏移出节点的宽度就可以</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 线段生成</span></span><br><span class="line">    <span class="keyword">this</span>.diagonal = d3.linkHorizontal().x(<span class="function"><span class="params">d</span> =&gt;</span> d.y).y(<span class="function"><span class="params">d</span> =&gt;</span> d.x)</span><br><span class="line">      .source(<span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> s = d.source</span><br><span class="line">        <span class="keyword">let</span> offset = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> (s.hasOwnProperty(<span class="string">'depth'</span>)) &#123;</span><br><span class="line">          offset = <span class="keyword">this</span>.wh[<span class="string">`l<span class="subst">$&#123;d.source.depth&#125;</span>`</span>][<span class="number">1</span>]</span><br><span class="line">          <span class="keyword">if</span> (+d.source.depth === <span class="number">0</span>) offset -= <span class="number">40</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="attr">x</span>: s.x, <span class="attr">y</span>: s.y + offset&#125;</span><br><span class="line">      &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="树图节点定制化程度很高"><a href="#树图节点定制化程度很高" class="headerlink" title="树图节点定制化程度很高"></a>树图节点定制化程度很高</h3><p><code>UI设计效果</code> 中每个节点的定制化程度还是很高的, 每个节点都有背景图片, 一些定制化的字体等<br>如果在 svg 中实现这种效果基本不可能. 但是使用<code>html</code> + <code>css</code> 就很得心应手了<br>所以这个问题就转换为: 如果在 <code>svg</code> 中插入 <code>html</code> ?<br>答案是: 使用 <code>svg</code> 的 <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject" target="_blank" rel="noopener external nofollow noreferrer">foreignObject</a> 标签<br><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/l0.png" alt="l0节点的结构"></p>
+<h3 id="后端返回数据的加工"><a href="#后端返回数据的加工" class="headerlink" title="后端返回数据的加工"></a>后端返回数据的加工</h3><p>对于这个树图, 产品对于展示数据的需求是, 展示出来 <code>字段说明 + 字段值</code><br>如 <code>对外下属投资方</code> , 需要展示出来 字段说明: 被投资公司名称, 关系类型, 以及这两个字段的对应值.参考下图<br><img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/tree3.png" alt="不同字段展示效果"><br>后端返回的数据结构如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"code"</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">"message"</span>: <span class="string">"success"</span>,</span><br><span class="line">  <span class="attr">"data"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"companyName"</span>: <span class="string">"大鹏证券有限责任公司"</span>,</span><br><span class="line">      <span class="attr">"investType"</span>: <span class="string">"投资进入"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每一个二级节点, 都对应一个独立的接口, 返回的结构都如上所示是一个 数组, 数组元素为对象.<br>我们知道对于树图, 他有自己的数据结构, 如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"children"</span>: [</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">"children"</span>: []</span><br><span class="line">     &#125;   </span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一层一层 <code>children</code> 嵌套<br>所以, 目前来看我们需要构造一个函数:</p>
+<ol>
+<li>可以满足树图数据的使用, children的嵌套</li>
+<li>对后端返回的字段进行映射, 10个接口中每个字段的映射<br>最终实现如下:<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatTreeChildren</span> (<span class="params">data, map</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> data.map(<span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> item = <span class="literal">null</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> map) &#123;</span><br><span class="line">          item = &#123;</span><br><span class="line">            name: v[key] || <span class="string">'暂无'</span>,</span><br><span class="line">            relation: map[key],</span><br><span class="line">            children: item ? [item] : <span class="literal">null</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 以对外下属投资方来说, 调用如下</span></span><br><span class="line"><span class="comment">// this.formatTreeChildren(data, &#123;investType: '关系类型', companyName: '被投资公司名称'&#125;)</span></span><br></pre></td></tr></table></figure>
+<img src="/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/formatTree.png" alt="树图数据处理"></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag"># 工作</a>
+              <a href="/tags/d3/" rel="tag"># d3</a>
+              <a href="/tags/mapbox/" rel="tag"># mapbox</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/04/es6%E8%A7%A3%E6%9E%84/" rel="prev" title="es6解构">
+      <i class="fa fa-chevron-left"></i> es6解构
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/25/nginx%E5%A4%87%E5%BF%98/" rel="next" title="nginx备忘">
+      nginx备忘 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#chrome-网络请求错误以及排查-20200908"><span class="nav-number">1.</span> <span class="nav-text">chrome 网络请求错误以及排查 - 20200908</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mapbox-异常点的处理-20200805"><span class="nav-number">2.</span> <span class="nav-text">mapbox 异常点的处理 - 20200805</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#处理前后效果对比"><span class="nav-number">2.1.</span> <span class="nav-text">处理前后效果对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何剔除异常点"><span class="nav-number">2.2.</span> <span class="nav-text">如何剔除异常点?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#d3-js-树图的实现-20200805"><span class="nav-number">3.</span> <span class="nav-text">d3.js 树图的实现 - 20200805</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计-实现"><span class="nav-number">3.1.</span> <span class="nav-text">设计&#x2F;实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">3.2.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接线处理"><span class="nav-number">3.2.1.</span> <span class="nav-text">连接线处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树图节点定制化程度很高"><span class="nav-number">3.2.2.</span> <span class="nav-text">树图节点定制化程度很高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后端返回数据的加工"><span class="nav-number">3.2.3.</span> <span class="nav-text">后端返回数据的加工</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lbp</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sdlbp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sdlbp" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lbp</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ef70baa18bad37d4d628',
+      clientSecret: '563ea140d4a11c569fd2ad67cb3f1d88cc3451cb',
+      repo        : 'sdlbp.github.io',
+      owner       : 'sdlbp',
+      admin       : ['sdlbp'],
+      id          : '61d2a2edd2824e7ba56fe8fd15cc15dc',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

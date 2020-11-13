@@ -1,0 +1,58 @@
+<!--layout: false-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工时统计</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+</head>
+<body>
+<div id="app">
+    <table>
+
+    </table>
+</div>
+<script>
+  new Vue({
+    el: '#app',
+    data () {
+      return {
+        work: {
+          "0925-1010" : {
+            "0925" : []
+          }
+        }
+      }
+    },
+    methods : {
+      dayItem () {
+
+      },
+      getYMD () {
+        const date = new Date()
+        const y = date.getFullYear()
+        const m = date.getMonth()
+        const d = date.getDate()
+
+      },
+      partItem (start, end = "") {
+        const s = new Date(start)
+        let e = ""
+        if (!end) {
+          e = new Date(end)
+        }
+        let total = ""
+        if (s && e) {
+
+        }
+        return {
+          start,
+          end,
+          total
+        };
+      }
+    }
+  })
+</script>
+</body>
+</html>

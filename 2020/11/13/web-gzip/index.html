@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"sdlbp.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":"ture","mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="主要介绍  如何配置 vue-cli4 gzip 压缩 nginx 支持 gzip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web性能优化-gzip">
+<meta property="og:url" content="https://sdlbp.github.io/2020/11/13/web-gzip/index.html">
+<meta property="og:site_name" content="lbp的blog">
+<meta property="og:description" content="主要介绍  如何配置 vue-cli4 gzip 压缩 nginx 支持 gzip">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sdlbp.github.io/2020/11/13/web-gzip/gzip-off.jpg">
+<meta property="og:image" content="https://sdlbp.github.io/2020/11/13/web-gzip/gzip-on.jpg">
+<meta property="article:published_time" content="2020-11-13T05:46:32.000Z">
+<meta property="article:modified_time" content="2020-11-13T05:46:32.000Z">
+<meta property="article:author" content="lbp">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sdlbp.github.io/2020/11/13/web-gzip/gzip-off.jpg">
+
+<link rel="canonical" href="https://sdlbp.github.io/2020/11/13/web-gzip/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>web性能优化-gzip | lbp的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">lbp的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习日常</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2020/11/13/web-gzip/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lbp">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lbp的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          web性能优化-gzip
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-13 13:46:32 13:46:32" itemprop="dateCreated datePublished" datetime="2020-11-13T13:46:32+08:00">2020-11-13 13:46:32</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">web</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>主要介绍</p>
+<ul>
+<li>如何配置 <code>vue-cli4</code> gzip 压缩</li>
+<li><code>nginx</code> 支持 <code>gzip</code></li>
+</ul>
+<a id="more"></a>
+
+<pre><code>对包进行压缩的好处很明显，减少体积。包体积带来的好处</code></pre><ul>
+<li><p>节省宽带</p>
+</li>
+<li><p>减少传输时间</p>
+<p>  可以选择两种 <code>时间点</code> 来压缩包：</p>
+</li>
+</ul>
+<ol>
+<li>前端 <code>build</code> 时压缩</li>
+<li>服务端（nginx,tomcat等容器）进行压缩</li>
+</ol>
+<p>服务端压缩 会消耗资源，个人没有看出有什么好处。所以 推荐第一种， 由客户端来进行压缩。</p>
+<h1 id="vue-cli4-配置-gzip"><a href="#vue-cli4-配置-gzip" class="headerlink" title="vue-cli4 配置 gzip"></a>vue-cli4 配置 gzip</h1><p>配置， 需要引入插件 <a href="https://github.com/webpack-contrib/compression-webpack-plugin" target="_blank" rel="noopener external nofollow noreferrer">compression-webpack-plugin</a>.</p>
+<p>在 <code>vue.config.js</code> 中配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack: config &#x3D;&gt; &#123;</span><br><span class="line">    const plugins &#x3D; [];</span><br><span class="line">    plugins.push(</span><br><span class="line">      new CompressionWebpackPlugin(&#123;</span><br><span class="line">        algorithm: &quot;gzip&quot;,</span><br><span class="line">        test: productionGzipExtensions,</span><br><span class="line">        threshold: 10240,</span><br><span class="line">        minRatio: 0.8</span><br><span class="line">      &#125;)</span><br><span class="line">    );</span><br><span class="line">    config.plugins &#x3D; [...config.plugins, ...plugins];</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>配置项具体含义含义可以参考 <code>[compression-webpack-plugin](https://github.com/webpack-contrib/compression-webpack-plugin#options)</code></p>
+<p>配置完成后，打包输出的文件。会同时存在 <code>**.js</code> 和 <code>**.js.gz</code></p>
+<p>如果 <code>浏览器</code> 支持 <code>gzip</code>, 也就是 请求头包含 <code>Accept-Encoding: gzip, deflate</code> 。 相当于向服务端请求 压缩后的文件，由服务端来返回的响应。</p>
+<h1 id="nginx-支持-gzip-请求"><a href="#nginx-支持-gzip-请求" class="headerlink" title="nginx 支持 gzip 请求"></a>nginx 支持 gzip 请求</h1><p><code>nginx</code> 的 <code>[ngx_http_gzip_module](http://nginx.org/en/docs/http/ngx_http_gzip_module.html)</code></p>
+<p>模块可以在存在压缩资源，并且浏览器支持此格式（Accept-Encoding）压缩资源，返回压缩后的资源。</p>
+<p>配置如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       <span class="number">80</span>;</span><br><span class="line">    server_name wuhan.aioc.jdcloud.com;</span><br><span class="line"></span><br><span class="line">    location /tyjrgl &#123;</span><br><span class="line">        gzip_static on;</span><br><span class="line">        gzip_http_version <span class="number">1.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>gzip_http_version</code> 配置的原因是， 代理服务器Nginx，转发是 1.0</p>
+<p>效果如下：<br> <img src="/2020/11/13/web-gzip/gzip-off.jpg" alt="压缩前"></p>
+<p> <img src="/2020/11/13/web-gzip/gzip-on.jpg" alt="压缩后"></p>
+<blockquote>
+<p><code>ngx_http_gzip_module</code> 模块不是 默认添加的，需要手动添加到 <code>nginx</code> 中。</p>
+<p>添加 ngx_http_gzip_module 的一些注意事项</p>
+<p>可以使用 <code>nginx -V | grep ngx_http_gzip_module</code> 检查现有 <code>nginx</code> 包含哪些模块</p>
+<p>需要下载与现有 <code>nginx</code> 版本对应的代码， 进行编译。下载地址：<a href="http://nginx.org/en/download.html" target="_blank" rel="noopener external nofollow noreferrer">nginx-download</a></p>
+<p>在编译包需要把 <code>nginx -V</code> 所包含的 配置一并添加</p>
+<p>记得使用 <code>cp</code> 命令备份原 <code>nginx</code></p>
+<p>参考 <a href="https://www.cnblogs.com/caicaizi/p/10241700.html" target="_blank" rel="noopener external nofollow noreferrer">yum安装下的nginx，如何添加模块，和添加第三方模块</a></p>
+</blockquote>
+<h1 id="我配置了，但是不起作用"><a href="#我配置了，但是不起作用" class="headerlink" title="我配置了，但是不起作用"></a>我配置了，但是不起作用</h1><p>放平心态， 一定是自己某一个环节疏忽了，一点点排查。</p>
+<ul>
+<li><p>首先确保是否把 压缩后的资源 上传了</p>
+</li>
+<li><p>nginx -s reload ?</p>
+</li>
+<li><p>检查配置是否真正生效？ </p>
+</li>
+</ul>
+<p>可以在配置之后做一些简单的配置，比如： <code>access_log</code> 从日志文件，来判断 <code>ngx_http_gzip_module</code> 是否真正配置<br>可能因为各种莫名奇妙的原因， <code>ngx_http_gzip_module</code> 模块并没有配置成功  </p>
+<ul>
+<li>直接在资源服务器请求 <code>curl -H &quot;Accept-Encoding: gzip&quot; -I http://wuhan.aioc.jdcloud.com/tyjrgl/js/app.58d8e1b9.js</code><br>如果包含 <code>Content-Encoding: gzip</code> 或者 从 <code>Content-Length</code> 来判断，是否配置成功。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@pre-nginx ~]# curl -H&quot;Accept-Encoding: gzip&quot; http:&#x2F;&#x2F;wuhan.aioc.jdcloud.com&#x2F;tyjrgl&#x2F;js&#x2F;app.58d8e1b9.js -I</span><br><span class="line">HTTP&#x2F;1.1 200 OK</span><br><span class="line">Server: nginx&#x2F;1.16.1</span><br><span class="line">Date: Fri, 13 Nov 2020 11:28:36 GMT</span><br><span class="line">Content-Type: application&#x2F;javascript</span><br><span class="line">Content-Length: 3663</span><br><span class="line">Last-Modified: Fri, 13 Nov 2020 10:24:28 GMT</span><br><span class="line">Connection: keep-alive</span><br><span class="line">ETag: &quot;5fae5edc-e4f&quot;</span><br><span class="line">Content-Encoding: gzip</span><br><span class="line">Expires: Fri, 13 Nov 2020 12:08:36 GMT</span><br><span class="line">Cache-Control: max-age&#x3D;2400</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li>配置是否全面？</li>
+</ul>
+<p>比如： 如果前端部署服务器，是从某个ng代理转发来的，需要配置<br><code>gzip_http_version： 1.0</code></p>
+<ul>
+<li>以上都没有问题， <code>我配置了，但没有生效</code> 。<br>请评论 欢迎一起 探讨。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/04/web-cache/" rel="prev" title="web性能优化-http缓存">
+      <i class="fa fa-chevron-left"></i> web性能优化-http缓存
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue-cli4-配置-gzip"><span class="nav-number">1.</span> <span class="nav-text">vue-cli4 配置 gzip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nginx-支持-gzip-请求"><span class="nav-number">2.</span> <span class="nav-text">nginx 支持 gzip 请求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我配置了，但是不起作用"><span class="nav-number">3.</span> <span class="nav-text">我配置了，但是不起作用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lbp</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sdlbp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sdlbp" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lbp</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ef70baa18bad37d4d628',
+      clientSecret: '563ea140d4a11c569fd2ad67cb3f1d88cc3451cb',
+      repo        : 'sdlbp.github.io',
+      owner       : 'sdlbp',
+      admin       : ['sdlbp'],
+      id          : '40d664ab5431193f6737c429b709e9a6',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

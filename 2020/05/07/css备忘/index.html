@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"sdlbp.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":"ture","mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="学习备忘css属性,概念,技巧. 包括:  css 属性值语法, 能够看懂理解 MDN 文档的 formal syntax css 伪类,伪元素的理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css备忘">
+<meta property="og:url" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/index.html">
+<meta property="og:site_name" content="lbp的blog">
+<meta property="og:description" content="学习备忘css属性,概念,技巧. 包括:  css 属性值语法, 能够看懂理解 MDN 文档的 formal syntax css 伪类,伪元素的理解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/float.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/text-align.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/border.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/box-shadow.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/padding.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/syntax.png">
+<meta property="og:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/padding.png">
+<meta property="article:published_time" content="2020-05-07T07:42:32.000Z">
+<meta property="article:modified_time" content="2020-05-13T02:40:08.000Z">
+<meta property="article:author" content="lbp">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/float.png">
+
+<link rel="canonical" href="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>css备忘 | lbp的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">lbp的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习日常</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2020/05/07/css%E5%A4%87%E5%BF%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lbp">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lbp的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          css备忘
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-07 15:42:32 15:42:32" itemprop="dateCreated datePublished" datetime="2020-05-07T15:42:32+08:00">2020-05-07 15:42:32</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-13 10:40:08 10:40:08" itemprop="dateModified" datetime="2020-05-13T10:40:08+08:00">2020-05-13 10:40:08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">web</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>学习备忘css属性,概念,技巧. 包括:</p>
+<ul>
+<li>css 属性值语法, 能够看懂理解 MDN 文档的 <code>formal syntax</code></li>
+<li>css 伪类,伪元素的理解<a id="more"></a>
+内容比较多, 可以参考左侧目录<h1 id="css-规范的制定"><a href="#css-规范的制定" class="headerlink" title="css 规范的制定"></a>css 规范的制定</h1>css2 之后,css 工作组意识到已经不能够将所有的规则塞到一个规范里面, 因此将css打散到不同的规范当中<br>对于已经在 2.1 中存在的特性, 版本号升级到3, 一些新增加的版本号从1开始</li>
+</ul>
+<blockquote>
+<p><a href="https://www.w3.org/TR/?tag=css" target="_blank" rel="noopener external nofollow noreferrer">ALL STANDARDS AND DRAFTS</a></p>
+<p><a href="https://drafts.csswg.org/" target="_blank" rel="noopener external nofollow noreferrer">CSS Working Group Editor Drafts</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference" target="_blank" rel="noopener external nofollow noreferrer">CSS 参考-MDN</a></p>
+</blockquote>
+<h1 id="css-属性值语法"><a href="#css-属性值语法" class="headerlink" title="css 属性值语法"></a>css 属性值语法</h1><blockquote>
+<p>&emsp;&emsp;在使用css时总是被它属性的灵活性所困扰, 比如: ‘padding’: 可以设置 1-3 个值, ‘border’: 的三个值可以任意交换顺序.这种灵活性总是给我一种混乱感, 在写 css 时,总是让我怀疑自己 写的程序, 因为我不知道自己写的是否符合规范.待页面呈现在我的面前时, 我会发现: <code>哦, 貌似没有什么问题</code> . 但是我不知道为什么这样写也可以, 或者说这是我试验猜测而得到</p>
+<p>&emsp;&emsp;这种 <code>试验-验证</code> 多了,总是让人对自己产生怀疑. 所以, 才使我 研究 <code>css语法</code>, 有法所依, 消除猜测</p>
+<p>&emsp;&emsp;本章节会列举属性值语法所用到符号. 以及一个以 <code>padding</code> 为例, 对属性值语法 的解读</p>
+</blockquote>
+<h2 id="基础数据类型-lt-gt"><a href="#基础数据类型-lt-gt" class="headerlink" title="基础数据类型 &lt;&gt;"></a>基础数据类型 &lt;&gt;</h2><p>基本数据类型使用 <code>&lt;</code> <code>&gt;</code> 括起来, 比如 <code>&lt;length&gt;</code>  <code>&lt;percentage&gt;</code></p>
+<h2 id="成分组合"><a href="#成分组合" class="headerlink" title="成分组合"></a>成分组合</h2><h3 id="单管道符号"><a href="#单管道符号" class="headerlink" title="单管道符号 |"></a>单管道符号 |</h3><ul>
+<li>只需一个值出现<br>css里面有很多使用 <code>|</code> 描述的属性,比如 <code>text-align</code> , <code>float</code><br><img src="/2020/05/07/css%E5%A4%87%E5%BF%98/float.png" alt="float"><br><img src="/2020/05/07/css%E5%A4%87%E5%BF%98/text-align.png" alt="text-align"><h3 id="双管道符号"><a href="#双管道符号" class="headerlink" title="双管道符号 ||"></a>双管道符号 ||</h3></li>
+<li>一个或者多个值必须出现</li>
+<li>顺序任意<br><code>border</code> 就是典型的使用 <code>||</code> 描述的属性<br><img src="/2020/05/07/css%E5%A4%87%E5%BF%98/border.png" alt="border"><h3 id="双与符号-amp-amp"><a href="#双与符号-amp-amp" class="headerlink" title="双与符号 &amp;&amp;"></a>双与符号 &amp;&amp;</h3></li>
+<li>值必须出现</li>
+<li>顺序任意<br>比如下面的 <code>box-show</code><br><img src="/2020/05/07/css%E5%A4%87%E5%BF%98/box-shadow.png" alt="box-shadow"><h3 id="中括号"><a href="#中括号" class="headerlink" title="中括号 []"></a>中括号 []</h3></li>
+<li>中括号里面内容作为一个单独的组<br><code>已padding</code> 为例,表示: 由 <code>length</code> 或者 <code>percentage</code> 组成的成分, 出现 <code>1-4</code> 次<br><img src="/2020/05/07/css%E5%A4%87%E5%BF%98/padding.png" alt="padding"><h3 id="相邻值"><a href="#相邻值" class="headerlink" title="相邻值"></a>相邻值</h3></li>
+<li>给定的值必须出现</li>
+<li>必须按照给定的顺序<h2 id="成分累加"><a href="#成分累加" class="headerlink" title="成分累加"></a>成分累加</h2><h3 id="问号"><a href="#问号" class="headerlink" title="问号 ?"></a>问号 ?</h3></li>
+<li>零次或者一次<h3 id="星号"><a href="#星号" class="headerlink" title="星号 *"></a>星号 *</h3></li>
+<li>零次或者多次<h3 id="井号"><a href="#井号" class="headerlink" title="井号 #"></a>井号 #</h3></li>
+<li>一次或者多次, 需要逗号<h3 id="加号"><a href="#加号" class="headerlink" title="加号 +"></a>加号 +</h3></li>
+<li>一次或者多次, 无需逗号<h3 id="A"><a href="#A" class="headerlink" title="{A}"></a>{A}</h3></li>
+<li>出现大括号中内容的次数<h3 id="A-B"><a href="#A-B" class="headerlink" title="{A,B}"></a>{A,B}</h3></li>
+<li>出现 A-B 次(含A,B)<h3 id="A-1"><a href="#A-1" class="headerlink" title="{A,}"></a>{A,}</h3></li>
+<li>至少出现A次, 没有上限<h3 id="叹号"><a href="#叹号" class="headerlink" title="叹号 !"></a>叹号 !</h3></li>
+<li>修饰在 <code>[]</code> 后面, 表示该组是必须的, 并且产生一个成分值<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><img src="/2020/05/07/css%E5%A4%87%E5%BF%98/syntax.png" alt="总结"><h2 id="padding-为例的解读"><a href="#padding-为例的解读" class="headerlink" title="padding 为例的解读"></a>padding 为例的解读</h2><img src="/2020/05/07/css%E5%A4%87%E5%BF%98/padding.png" alt="padding"></li>
+<li><code>|</code> 表示 可以使用 <code>length</code> 或者 <code>percentage</code> 基本数据类型</li>
+<li><code>{1, 4}</code> 表示 前面的组可以出现 <code>1-4</code> 次</li>
+</ul>
+<p>从语法规范上看我们可以设置 <code>padding</code> 可能的值就比较明了, 有法可依</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.zcfy.cc/article/390" target="_blank" rel="noopener external nofollow noreferrer">理解 CSS 属性值语法 – Smashing Magazine</a><br><a href="https://www.w3.org/TR/css3-values/#value-defs" target="_blank" rel="noopener external nofollow noreferrer">CSS Values and Units Module Level 3</a></p>
+<h1 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h1><p>css 伪类是添加到 <code>选择器</code> 的 <code>关键字</code> 用来指定要选择元素的特殊状态<br>使用 <code>:</code> 开头</p>
+<iframe height="265" style="width: 100%;" scrolling="no" title="pseudo-class" src="https://codepen.io/sdlbp/embed/jObZXYB?height=265&theme-id=dark&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/sdlbp/pen/jObZXYB" target="_blank" rel="noopener external nofollow noreferrer">pseudo-class</a> by liubaopeng
+  (<a href="https://codepen.io/sdlbp" target="_blank" rel="noopener external nofollow noreferrer">@sdlbp</a>) on <a href="https://codepen.io" target="_blank" rel="noopener external nofollow noreferrer">CodePen</a>.
+</iframe>
+
+<h2 id="伪类和伪元素的来源"><a href="#伪类和伪元素的来源" class="headerlink" title="伪类和伪元素的来源"></a>伪类和伪元素的来源</h2><blockquote>
+<p>In CSS 2.1, style is normally attached to an element based on its position in the document tree. This simple model is sufficient for many cases, but some common publishing scenarios may not be possible due to the structure of the document tree. For instance, in HTML 4 (see [HTML4]), no element refers to the first line of a paragraph, and therefore no simple CSS selector may refer to it.</p>
+<p>CSS introduces the concepts of pseudo-elements and pseudo-classes to permit formatting based on information that lies outside the document tree.</p>
+<p><a href="https://www.w3.org/TR/CSS2/selector.html#pseudo-elements" target="_blank" rel="noopener external nofollow noreferrer">出自: 5 Selectors</a></p>
+</blockquote>
+<p>从上面的摘抄可以看出, <code>伪类</code>最初的引入目的: 是为了应对一些特殊的情况: <code>permit formatting based on information that lies outside the document tree</code></p>
+<blockquote>
+<p>个人理解: 伪类可以认为是一种特殊的选择器<br>基于用户行为的(:hover, :active, :focus …)<br>基于元素状态的(:enabled, :disabled, :checked, :indeterminate)<br>基于元素结构的(:first-child :last-child :nth-child :nth-last-child :first-of-type :last-of-type :nth-of-type :nth-last-type :only-type)</p>
+</blockquote>
+<h1 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h1><blockquote>
+<p>个人理解: 伪元素存在的目的是为了保证 html 的语义化, css用来添加一些样式上的表现内容, html 上一些非正式东西可以使用伪元素 </p>
+</blockquote>
+<h2 id="常用伪元素"><a href="#常用伪元素" class="headerlink" title="常用伪元素"></a>常用伪元素</h2><h3 id="after-before"><a href="#after-before" class="headerlink" title="::after ::before"></a>::after ::before</h3><ul>
+<li>作为被选中元素的 <code>子元素</code></li>
+<li>被添加的伪元素是 <code>行内元素</code> </li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/css/" rel="tag"># css</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/07/linux%E5%91%BD%E4%BB%A4/" rel="prev" title="linux命令">
+      <i class="fa fa-chevron-left"></i> linux命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/10/js%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD/" rel="next" title="js对象类型判断">
+      js对象类型判断 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#css-规范的制定"><span class="nav-number">1.</span> <span class="nav-text">css 规范的制定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#css-属性值语法"><span class="nav-number">2.</span> <span class="nav-text">css 属性值语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础数据类型-lt-gt"><span class="nav-number">2.1.</span> <span class="nav-text">基础数据类型 &lt;&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成分组合"><span class="nav-number">2.2.</span> <span class="nav-text">成分组合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单管道符号"><span class="nav-number">2.2.1.</span> <span class="nav-text">单管道符号 |</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双管道符号"><span class="nav-number">2.2.2.</span> <span class="nav-text">双管道符号 ||</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双与符号-amp-amp"><span class="nav-number">2.2.3.</span> <span class="nav-text">双与符号 &amp;&amp;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中括号"><span class="nav-number">2.2.4.</span> <span class="nav-text">中括号 []</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相邻值"><span class="nav-number">2.2.5.</span> <span class="nav-text">相邻值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成分累加"><span class="nav-number">2.3.</span> <span class="nav-text">成分累加</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问号"><span class="nav-number">2.3.1.</span> <span class="nav-text">问号 ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#星号"><span class="nav-number">2.3.2.</span> <span class="nav-text">星号 *</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#井号"><span class="nav-number">2.3.3.</span> <span class="nav-text">井号 #</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加号"><span class="nav-number">2.3.4.</span> <span class="nav-text">加号 +</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A"><span class="nav-number">2.3.5.</span> <span class="nav-text">{A}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-B"><span class="nav-number">2.3.6.</span> <span class="nav-text">{A,B}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-1"><span class="nav-number">2.3.7.</span> <span class="nav-text">{A,}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#叹号"><span class="nav-number">2.3.8.</span> <span class="nav-text">叹号 !</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#padding-为例的解读"><span class="nav-number">2.5.</span> <span class="nav-text">padding 为例的解读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.6.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#伪类"><span class="nav-number">3.</span> <span class="nav-text">伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#伪类和伪元素的来源"><span class="nav-number">3.1.</span> <span class="nav-text">伪类和伪元素的来源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#伪元素"><span class="nav-number">4.</span> <span class="nav-text">伪元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用伪元素"><span class="nav-number">4.1.</span> <span class="nav-text">常用伪元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#after-before"><span class="nav-number">4.1.1.</span> <span class="nav-text">::after ::before</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lbp</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sdlbp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sdlbp" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lbp</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ef70baa18bad37d4d628',
+      clientSecret: '563ea140d4a11c569fd2ad67cb3f1d88cc3451cb',
+      repo        : 'sdlbp.github.io',
+      owner       : 'sdlbp',
+      admin       : ['sdlbp'],
+      id          : '27017d8a01dd7dde1f2c986f07481db2',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
