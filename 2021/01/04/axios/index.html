@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"sdlbp.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":"ture","mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="axios 是前端使用的主流网络请求库。本文从源码角度进行解读，主要分析浏览器环境下具体实现。 node环境下原理相同，区别仅是 axios 对 XMLHttpRequests 与 http 的封装区别。 主要包含以下内容：  features 解读，也就是主要功能。从源码角度详细解读每条features 的实现 config 配置解读。我们对axios的使用，其实就是在配置config">
+<meta property="og:type" content="article">
+<meta property="og:title" content="axios源码解读">
+<meta property="og:url" content="https://sdlbp.github.io/2021/01/04/axios/index.html">
+<meta property="og:site_name" content="lbp的blog">
+<meta property="og:description" content="axios 是前端使用的主流网络请求库。本文从源码角度进行解读，主要分析浏览器环境下具体实现。 node环境下原理相同，区别仅是 axios 对 XMLHttpRequests 与 http 的封装区别。 主要包含以下内容：  features 解读，也就是主要功能。从源码角度详细解读每条features 的实现 config 配置解读。我们对axios的使用，其实就是在配置config">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-04T02:29:51.000Z">
+<meta property="article:modified_time" content="2021-01-04T02:29:51.000Z">
+<meta property="article:author" content="lbp">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://sdlbp.github.io/2021/01/04/axios/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>axios源码解读 | lbp的blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">lbp的blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习日常</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2021/01/04/axios/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lbp">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lbp的blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          axios源码解读
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-04 10:29:51 10:29:51" itemprop="dateCreated datePublished" datetime="2021-01-04T10:29:51+08:00">2021-01-04 10:29:51</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>axios 是前端使用的主流网络请求库。本文从源码角度进行解读，主要分析浏览器环境下具体实现。</p>
+<p>node环境下原理相同，区别仅是 <code>axios</code> 对 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener external nofollow noreferrer">XMLHttpRequests</a> 与 <a href="http://nodejs.org/api/http.html" target="_blank" rel="noopener external nofollow noreferrer">http</a> 的封装区别。</p>
+<p>主要包含以下内容：</p>
+<ol>
+<li>features 解读，也就是主要功能。从源码角度详细解读每条features 的实现</li>
+<li>config 配置解读。我们对axios的使用，其实就是在配置config<a id="more"></a>
+
+</li>
+</ol>
+<h1 id="features-解读"><a href="#features-解读" class="headerlink" title="features 解读"></a>features 解读</h1><blockquote>
+<ol>
+<li>Make <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener external nofollow noreferrer">XMLHttpRequests</a> from the browser</li>
+<li>Make <a href="http://nodejs.org/api/http.html" target="_blank" rel="noopener external nofollow noreferrer">http</a> requests from node.js</li>
+<li>Supports the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="noopener external nofollow noreferrer">Promise</a> API</li>
+<li>Intercept request and response</li>
+<li>Transform request and response data</li>
+<li>Cancel requests</li>
+<li>Automatic transforms for JSON data</li>
+<li>Client side support for protecting against <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank" rel="noopener external nofollow noreferrer">XSRF</a></li>
+</ol>
+</blockquote>
+<h2 id="请求的适配"><a href="#请求的适配" class="headerlink" title="请求的适配"></a>请求的适配</h2><p>1和2表明了 <code>axios</code> 能够在两种环境环境下使用 <code>browser</code> 和 <code>node</code> 。 </p>
+<p>在这两种环境下实际使用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener external nofollow noreferrer">XMLHttpRequests</a> 和 <a href="http://nodejs.org/api/http.html" target="_blank" rel="noopener external nofollow noreferrer">http</a> requests from node.js 发出请求。</p>
+<p>在不同环境下， <code>axios</code> 使用了 <code>适配器模式</code> ，来进行兼容。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// axios 适配器模式支持浏览器和node环境</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDefaultAdapter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> adapter;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> XMLHttpRequest !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="comment">// 在浏览器环境下使用 XMLHttpRequest 发起请求</span></span><br><span class="line">    <span class="comment">// For browsers use XHR adapter</span></span><br><span class="line">    adapter = <span class="built_in">require</span>(<span class="string">'./adapters/xhr'</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> process !== <span class="string">'undefined'</span> &amp;&amp; <span class="built_in">Object</span>.prototype.toString.call(process) === <span class="string">'[object process]'</span>) &#123;</span><br><span class="line">    <span class="comment">// 在node环境系使用 http 库发起请求</span></span><br><span class="line">    <span class="comment">// For node use HTTP adapter</span></span><br><span class="line">    adapter = <span class="built_in">require</span>(<span class="string">'./adapters/http'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> adapter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Supports-the-Promise-API"><a href="#Supports-the-Promise-API" class="headerlink" title="Supports the Promise API"></a>Supports the Promise API</h2><p><code>axios</code> 是基于 <code>promise</code> 来进行封住的请求，可以简化成如下形式：</p>
+<p>注释部分代表在axios中实现的核心逻辑</p>
+<iframe height="400" style="width: 100%;" scrolling="no" title="axios-main" src="https://codepen.io/sdlbp/embed/LYRJWQM?height=400&theme-id=dark&default-tab=js" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/sdlbp/pen/LYRJWQM" target="_blank" rel="noopener external nofollow noreferrer">axios-main</a> by liubaopeng
+  (<a href="https://codepen.io/sdlbp" target="_blank" rel="noopener external nofollow noreferrer">@sdlbp</a>) on <a href="https://codepen.io" target="_blank" rel="noopener external nofollow noreferrer">CodePen</a>.
+</iframe>
+
+<h2 id="Intercept-request-and-response"><a href="#Intercept-request-and-response" class="headerlink" title="Intercept request and response"></a>Intercept request and response</h2><p>借助于 <code>Promise</code> 的链式调用，在请求发起前进行 <code>request</code> 处理， 在请求结束，进行 <code>response</code> 处理。相关代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">Axios.prototype.request = <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">config</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// some code ...</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Hook up interceptors middleware</span></span><br><span class="line">  <span class="comment">// dispatchRequest 负责发起请求</span></span><br><span class="line">  <span class="keyword">var</span> chain = [dispatchRequest, <span class="literal">undefined</span>];</span><br><span class="line">  <span class="keyword">var</span> promise = <span class="built_in">Promise</span>.resolve(config);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.interceptors.request.forEach(<span class="function"><span class="keyword">function</span> <span class="title">unshiftRequestInterceptors</span>(<span class="params">interceptor</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 把 request 拦截，unshift 在 chain 数组前面</span></span><br><span class="line">    chain.unshift(interceptor.fulfilled, interceptor.rejected);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.interceptors.response.forEach(<span class="function"><span class="keyword">function</span> <span class="title">pushResponseInterceptors</span>(<span class="params">interceptor</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 把 response 拦截，push 在 chain 数组后面</span></span><br><span class="line">    chain.push(interceptor.fulfilled, interceptor.rejected);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 经过以上处理之后，chain 数组,基本形式应该如下（小序号表示先添加）</span></span><br><span class="line"><span class="comment">   * [</span></span><br><span class="line"><span class="comment">   *  请求拦截2resolve, 请求拦截2reject</span></span><br><span class="line"><span class="comment">   *  请求拦截1resolve, 请求拦截1reject</span></span><br><span class="line"><span class="comment">   *  ...</span></span><br><span class="line"><span class="comment">   *  dispatchRequest, undefined</span></span><br><span class="line"><span class="comment">   *  响应拦截1resolve, 响应拦截1reject</span></span><br><span class="line"><span class="comment">   *  响应拦截2resolve, 响应拦截2reject</span></span><br><span class="line"><span class="comment">   *  ...</span></span><br><span class="line"><span class="comment">   * ]</span></span><br><span class="line"><span class="comment">   * */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 遍历成对取出chain 数组元素，执行</span></span><br><span class="line">  <span class="keyword">while</span> (chain.length) &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求拦截，使用push进入拦截管理器。forEach 取出后 unshift 到 chain数组，在使用时候 shift 出。</span></span><br><span class="line"><span class="comment">     * 所以请求拦截，先添加的后执行</span></span><br><span class="line"><span class="comment">     * 响应拦截，使用push进入拦截管理器。forEach 取出后 push 到 chain数组，在使用时候 shift 出。</span></span><br><span class="line"><span class="comment">     * 所以响应拦截，先添加的先执行</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    promise = promise.then(chain.shift(), chain.shift());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> promise;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Transform-request-and-response-data"><a href="#Transform-request-and-response-data" class="headerlink" title="Transform request and response data"></a>Transform request and response data</h2><p><code>axios</code> 会有一个默认配置对象 <code>defaultConfig</code>，配置了默认转换方法。</p>
+<p>如果是字符串，使用 <code>try</code> 包裹起来，进行简单的json序列化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对 response 默认转换函数</span></span><br><span class="line">  transformResponse: [<span class="function"><span class="keyword">function</span> <span class="title">transformResponse</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="comment">/*eslint no-param-reassign:0*/</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> data === <span class="string">'string'</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        data = <span class="built_in">JSON</span>.parse(data);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123; <span class="comment">/* Ignore */</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">  &#125;]</span><br></pre></td></tr></table></figure>
+
+<p>// request 根据不同的数据类型，进行相应的处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对request默认转换函数</span></span><br><span class="line">  transformRequest: [<span class="function"><span class="keyword">function</span> <span class="title">transformRequest</span>(<span class="params">data, headers</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 统一 Accept 大小写</span></span><br><span class="line">    normalizeHeaderName(headers, <span class="string">'Accept'</span>);</span><br><span class="line">    <span class="comment">// 统一 Content-Type 大小写</span></span><br><span class="line">    normalizeHeaderName(headers, <span class="string">'Content-Type'</span>);</span><br><span class="line">    <span class="keyword">if</span> (utils.isFormData(data) ||</span><br><span class="line">      utils.isArrayBuffer(data) ||</span><br><span class="line">      utils.isBuffer(data) ||</span><br><span class="line">      utils.isStream(data) ||</span><br><span class="line">      utils.isFile(data) ||</span><br><span class="line">      utils.isBlob(data)</span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (utils.isArrayBufferView(data)) &#123;</span><br><span class="line">      <span class="keyword">return</span> data.buffer;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (utils.isURLSearchParams(data)) &#123;</span><br><span class="line">      setContentTypeIfUnset(headers, <span class="string">'application/x-www-form-urlencoded;charset=utf-8'</span>);</span><br><span class="line">      <span class="keyword">return</span> data.toString();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (utils.isObject(data)) &#123;</span><br><span class="line">      setContentTypeIfUnset(headers, <span class="string">'application/json;charset=utf-8'</span>);</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">  &#125;]</span><br></pre></td></tr></table></figure>
+
+<p><code>request</code> 和 <code>response</code> 的转换方法都是放在数组里面。 <code>axios</code> 支持多个转换。</p>
+<h2 id="Cancel-requests"><a href="#Cancel-requests" class="headerlink" title="Cancel requests"></a>Cancel requests</h2><p>在浏览器环境，取消最终是调用的 <code>XMLHttpRequest.abort()</code>。我们从取消一个请求的使用来分析 <code>axios</code> 对取消请求的实现。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> CancelToken = axios.CancelToken;</span><br><span class="line"><span class="keyword">let</span> cancel;</span><br><span class="line"></span><br><span class="line">axios.get(<span class="string">'/user/12345'</span>, &#123;</span><br><span class="line">  cancelToken: <span class="keyword">new</span> CancelToken(<span class="function"><span class="keyword">function</span> <span class="title">executor</span>(<span class="params">c</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// An executor function receives a cancel function as a parameter</span></span><br><span class="line">    cancel = c;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// cancel the request</span></span><br><span class="line">cancel();</span><br></pre></td></tr></table></figure>
+<p>调用 <code>cancel()</code> ，会执行 <code>c</code> 。 <code>c</code>是一个函数的参数。源码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">CancelToken</span>(<span class="params">executor</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> executor !== <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'executor must be a function.'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 每个CancelToken实例对象，都会有一个 `Promise` 实例。默认处于`pending`。</span></span><br><span class="line">  <span class="comment">// 并且外界（resolvePromise）持有Promise状态变更的resolve函数</span></span><br><span class="line">  <span class="keyword">var</span> resolvePromise;</span><br><span class="line">  <span class="keyword">this</span>.promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> <span class="title">promiseExecutor</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    resolvePromise = resolve;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> token = <span class="keyword">this</span>;</span><br><span class="line">  <span class="comment">// cancel 函数就是 c。</span></span><br><span class="line">  executor(<span class="function"><span class="keyword">function</span> <span class="title">cancel</span>(<span class="params">message</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 当请求已经取消过，直接返回</span></span><br><span class="line">    <span class="keyword">if</span> (token.reason) &#123;</span><br><span class="line">      <span class="comment">// Cancellation has already been requested</span></span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 实例化一个 Cancel 对象，抛出</span></span><br><span class="line">    token.reason = <span class="keyword">new</span> Cancel(message);</span><br><span class="line">    <span class="comment">// 更改CancelToken实例中promise属性状态</span></span><br><span class="line">    resolvePromise(token.reason);</span><br><span class="line">    <span class="comment">// 当resolvePromise(token.reason)调用之后，promise的状态会从pending变更为fulfill</span></span><br><span class="line">    <span class="comment">// 触发CancelToken实例对象属性promise.then()的执行，取消请求。</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结来说，取消请求的实现，是借助了 <code>Promise</code>。<br>每一个请求的配置中会有一个处于 <code>pedding</code> 状态的实例化对象。当需要取消请求时，调用 <code>resolve</code> ，触发 <code>promise.then</code> 的执行来取消网络请求</p>
+<h2 id="Automatic-transforms-for-JSON-data"><a href="#Automatic-transforms-for-JSON-data" class="headerlink" title="Automatic transforms for JSON data"></a>Automatic transforms for JSON data</h2><p>参考上面<a href="#transform-request-and-response-data">Transform request and response data</a></p>
+<h2 id="Client-side-support-for-protecting-against-XSRF"><a href="#Client-side-support-for-protecting-against-XSRF" class="headerlink" title="Client side support for protecting against XSRF"></a>Client side support for protecting against <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank" rel="noopener external nofollow noreferrer">XSRF</a></h2><p>XSRF 又称作 CSRF（Cross-site request forgery）跨站请求伪造：攻击者诱导受害者进入第三方网站，在第三方网站中，向被攻击网站发送跨站请求。利用受害者在被攻击网站已经获取的注册凭证，绕过后台的用户验证，达到冒充用户对被攻击的网站执行某项操作的目的。</p>
+<p>因为同源策略的限制，第三方网站无法获取到被攻击网站的cookie。所以前端可以在请求中携带后端返回的cookie来防止 CSRF。</p>
+<p>axios中代码如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Add xsrf header</span></span><br><span class="line"><span class="comment">// This is only done if running in a standard browser environment.</span></span><br><span class="line"><span class="comment">// Specifically not if we're in a web worker, or react-native.</span></span><br><span class="line"><span class="keyword">if</span> (utils.isStandardBrowserEnv()) &#123;</span><br><span class="line">  <span class="comment">// Add xsrf header</span></span><br><span class="line">  <span class="keyword">var</span> xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) &amp;&amp; config.xsrfCookieName ?</span><br><span class="line">    cookies.read(config.xsrfCookieName) :</span><br><span class="line">    <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (xsrfValue) &#123;</span><br><span class="line">    requestHeaders[config.xsrfHeaderName] = xsrfValue;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上内容其实也可以使用拦截器实现。</p>
+<h1 id="config"><a href="#config" class="headerlink" title="config"></a>config</h1><p>// TODO</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/04/auto-deploy-script/" rel="prev" title="web部署（ci）简易脚本">
+      <i class="fa fa-chevron-left"></i> web部署（ci）简易脚本
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#features-解读"><span class="nav-number">1.</span> <span class="nav-text">features 解读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求的适配"><span class="nav-number">1.1.</span> <span class="nav-text">请求的适配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Supports-the-Promise-API"><span class="nav-number">1.2.</span> <span class="nav-text">Supports the Promise API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intercept-request-and-response"><span class="nav-number">1.3.</span> <span class="nav-text">Intercept request and response</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transform-request-and-response-data"><span class="nav-number">1.4.</span> <span class="nav-text">Transform request and response data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cancel-requests"><span class="nav-number">1.5.</span> <span class="nav-text">Cancel requests</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Automatic-transforms-for-JSON-data"><span class="nav-number">1.6.</span> <span class="nav-text">Automatic transforms for JSON data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client-side-support-for-protecting-against-XSRF"><span class="nav-number">1.7.</span> <span class="nav-text">Client side support for protecting against XSRF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#config"><span class="nav-number">2.</span> <span class="nav-text">config</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lbp</p>
+  <div class="site-description" itemprop="description">不积跬步无以至千里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sdlbp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sdlbp" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lbp</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ef70baa18bad37d4d628',
+      clientSecret: '563ea140d4a11c569fd2ad67cb3f1d88cc3451cb',
+      repo        : 'sdlbp.github.io',
+      owner       : 'sdlbp',
+      admin       : ['sdlbp'],
+      id          : '8fe5695f9ae8c8a717e661196bf18f3b',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
