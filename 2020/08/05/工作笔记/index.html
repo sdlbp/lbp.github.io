@@ -21,12 +21,12 @@
     var CONFIG = {"hostname":"sdlbp.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":"ture","mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="记录了日常工作中值得记录的内容chrome 网络请求错误以及排查 - 20200908d3.js 树图的实现 - 20200805mapbox 异常点的处理 - 20200805">
+  <meta name="description" content="记录了日常工作中值得记录的内容玉溪项目遇到的一些bug - 20201223chrome 网络请求错误以及排查 - 20200908d3.js 树图的实现 - 20200805mapbox 异常点的处理 - 20200805">
 <meta property="og:type" content="article">
 <meta property="og:title" content="工作笔记">
 <meta property="og:url" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="lbp的blog">
-<meta property="og:description" content="记录了日常工作中值得记录的内容chrome 网络请求错误以及排查 - 20200908d3.js 树图的实现 - 20200805mapbox 异常点的处理 - 20200805">
+<meta property="og:description" content="记录了日常工作中值得记录的内容玉溪项目遇到的一些bug - 20201223chrome 网络请求错误以及排查 - 20200908d3.js 树图的实现 - 20200805mapbox 异常点的处理 - 20200805">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/chromebug.png">
 <meta property="og:image" content="https://sdlbp.github.io/2020/08/05/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/chromereport.png">
@@ -232,13 +232,30 @@
 
       
         <blockquote>
-<p>记录了日常工作中值得记录的内容<br>chrome 网络请求错误以及排查 - 20200908<br>d3.js 树图的实现 - 20200805<br>mapbox 异常点的处理 - 20200805 </p>
+<p>记录了日常工作中值得记录的内容<br>玉溪项目遇到的一些bug - 20201223<br>chrome 网络请求错误以及排查 - 20200908<br>d3.js 树图的实现 - 20200805<br>mapbox 异常点的处理 - 20200805 </p>
 </blockquote>
 <a id="more"></a>
-<h1 id="chrome-网络请求错误以及排查-20200908"><a href="#chrome-网络请求错误以及排查-20200908" class="headerlink" title="chrome 网络请求错误以及排查 - 20200908"></a>chrome 网络请求错误以及排查 - 20200908</h1><p>在实际项目中，遇到的一个chrome bug，具有一定的误导性。bug的复现的必要条件如下：</p>
+<h1 id="玉溪项目bug"><a href="#玉溪项目bug" class="headerlink" title="玉溪项目bug"></a>玉溪项目bug</h1><ul>
+<li><p>后端在人数，数量一些问题上使用了 <code>int</code>，前端使用了 <code>el-input</code>。 自定义指令 v-number 解决</p>
 <ul>
-<li>chrome -&gt; network -&gt; disable cache 取消勾选</li>
-<li>使用 <code>img</code> 标签和 <code>XMLHttpRequest</code> 请求同一个图片（保证这个图片之前没有请求过）<br>简化代码如下：<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"codepen"</span> <span class="attr">data-height</span>=<span class="string">"265"</span> <span class="attr">data-theme-id</span>=<span class="string">"dark"</span> <span class="attr">data-default-tab</span>=<span class="string">"html,result"</span> <span class="attr">data-user</span>=<span class="string">"sdlbp"</span> <span class="attr">data-slug-hash</span>=<span class="string">"qBZxmOQ"</span> <span class="attr">data-preview</span>=<span class="string">"true"</span> <span class="attr">style</span>=<span class="string">"height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"</span> <span class="attr">data-pen-title</span>=<span class="string">"chrome bug demo"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>See the Pen <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io/sdlbp/pen/qBZxmOQ"</span>&gt;</span></span><br><span class="line">  chrome bug demo<span class="tag">&lt;/<span class="name">a</span>&gt;</span> by liubaopeng (<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io/sdlbp"</span>&gt;</span>@sdlbp<span class="tag">&lt;/<span class="name">a</span>&gt;</span>)</span><br><span class="line">  on <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io"</span>&gt;</span>CodePen<span class="tag">&lt;/<span class="name">a</span>&gt;</span>.<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://static.codepen.io/assets/embed/ei.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<li>int 超出最大值报错，前端校验</li>
+<li>el-input 输入非数字，前端校验</li>
+</ul>
+</li>
+<li><p>在测试阶段会有频繁的部署需求，虽然 <code>webpack</code> 对 <code>css</code> <code>js</code> 打包做了 <code>hash</code> 后缀。但是 <code>spa</code> 项目的入口 <code>index。html</code> 并没有处理缓存     </p>
+</li>
+<li><p>直接通过cookie查询用户信息，而不是id</p>
+<ul>
+<li>不安全，随便换一个id就可以看到别人信息</li>
+</ul>
+</li>
+<li><p>mixin 抽取   </p>
+<h1 id="chrome-网络请求错误以及排查-20200908"><a href="#chrome-网络请求错误以及排查-20200908" class="headerlink" title="chrome 网络请求错误以及排查 - 20200908"></a>chrome 网络请求错误以及排查 - 20200908</h1><p>在实际项目中，遇到的一个chrome bug，具有一定的误导性。bug的复现的必要条件如下：</p>
+</li>
+<li><p>chrome -&gt; network -&gt; disable cache 取消勾选</p>
+</li>
+<li><p>使用 <code>img</code> 标签和 <code>XMLHttpRequest</code> 请求同一个图片（保证这个图片之前没有请求过）<br>简化代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"codepen"</span> <span class="attr">data-height</span>=<span class="string">"265"</span> <span class="attr">data-theme-id</span>=<span class="string">"dark"</span> <span class="attr">data-default-tab</span>=<span class="string">"html,result"</span> <span class="attr">data-user</span>=<span class="string">"sdlbp"</span> <span class="attr">data-slug-hash</span>=<span class="string">"qBZxmOQ"</span> <span class="attr">data-preview</span>=<span class="string">"true"</span> <span class="attr">style</span>=<span class="string">"height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"</span> <span class="attr">data-pen-title</span>=<span class="string">"chrome bug demo"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>See the Pen <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io/sdlbp/pen/qBZxmOQ"</span>&gt;</span></span><br><span class="line">  chrome bug demo<span class="tag">&lt;/<span class="name">a</span>&gt;</span> by liubaopeng (<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io/sdlbp"</span>&gt;</span>@sdlbp<span class="tag">&lt;/<span class="name">a</span>&gt;</span>)</span><br><span class="line">  on <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://codepen.io"</span>&gt;</span>CodePen<span class="tag">&lt;/<span class="name">a</span>&gt;</span>.<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">"https://static.codepen.io/assets/embed/ei.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -365,7 +382,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#chrome-网络请求错误以及排查-20200908"><span class="nav-number">1.</span> <span class="nav-text">chrome 网络请求错误以及排查 - 20200908</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mapbox-异常点的处理-20200805"><span class="nav-number">2.</span> <span class="nav-text">mapbox 异常点的处理 - 20200805</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#处理前后效果对比"><span class="nav-number">2.1.</span> <span class="nav-text">处理前后效果对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何剔除异常点"><span class="nav-number">2.2.</span> <span class="nav-text">如何剔除异常点?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#d3-js-树图的实现-20200805"><span class="nav-number">3.</span> <span class="nav-text">d3.js 树图的实现 - 20200805</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计-实现"><span class="nav-number">3.1.</span> <span class="nav-text">设计&#x2F;实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">3.2.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接线处理"><span class="nav-number">3.2.1.</span> <span class="nav-text">连接线处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树图节点定制化程度很高"><span class="nav-number">3.2.2.</span> <span class="nav-text">树图节点定制化程度很高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后端返回数据的加工"><span class="nav-number">3.2.3.</span> <span class="nav-text">后端返回数据的加工</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#玉溪项目bug"><span class="nav-number">1.</span> <span class="nav-text">玉溪项目bug</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chrome-网络请求错误以及排查-20200908"><span class="nav-number">2.</span> <span class="nav-text">chrome 网络请求错误以及排查 - 20200908</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mapbox-异常点的处理-20200805"><span class="nav-number">3.</span> <span class="nav-text">mapbox 异常点的处理 - 20200805</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#处理前后效果对比"><span class="nav-number">3.1.</span> <span class="nav-text">处理前后效果对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何剔除异常点"><span class="nav-number">3.2.</span> <span class="nav-text">如何剔除异常点?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#d3-js-树图的实现-20200805"><span class="nav-number">4.</span> <span class="nav-text">d3.js 树图的实现 - 20200805</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计-实现"><span class="nav-number">4.1.</span> <span class="nav-text">设计&#x2F;实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">4.2.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接线处理"><span class="nav-number">4.2.1.</span> <span class="nav-text">连接线处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树图节点定制化程度很高"><span class="nav-number">4.2.2.</span> <span class="nav-text">树图节点定制化程度很高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后端返回数据的加工"><span class="nav-number">4.2.3.</span> <span class="nav-text">后端返回数据的加工</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -423,7 +440,7 @@
 <div class="copyright">
   
   &copy; 2019 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="user"></i>
   </span>
