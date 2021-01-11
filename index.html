@@ -196,11 +196,8 @@
 
       
           <p>axios 是前端使用的主流网络请求库。本文从源码角度进行解读，主要分析浏览器环境下具体实现。</p>
-<p>node环境下原理相同，区别仅是 <code>axios</code> 对 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener external nofollow noreferrer">XMLHttpRequests</a> 与 <a href="http://nodejs.org/api/http.html" target="_blank" rel="noopener external nofollow noreferrer">http</a> 的封装区别。</p>
-<p>主要包含以下内容：</p>
-<ol>
-<li>features 解读，也就是主要功能。从源码角度详细解读每条features 的实现</li>
-<li>config 配置解读。我们对axios的使用，其实就是在配置config</li></ol>
+<p>node环境下原理相同，区别仅是 <code>axios</code> 对 <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener external nofollow noreferrer">XMLHttpRequests</a> 与 <a href="http://nodejs.org/api/http.html" target="_blank" rel="noopener external nofollow noreferrer">http</a> 的封装不同。</p>
+<p>主要是对axios功能点从源码角度的解读，基于<code>v0.21.0</code>版本</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/01/04/axios/#more" rel="contents">
