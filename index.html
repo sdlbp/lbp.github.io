@@ -157,6 +157,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2020/12/04/auto-deploy-script/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lbp">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lbp的blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/04/auto-deploy-script/" class="post-title-link" itemprop="url">web自动化一键部署</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-04 17:50:19 17:50:19" itemprop="dateCreated datePublished" datetime="2020-12-04T17:50:19+08:00">2020-12-04 17:50:19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-13 14:55:33 14:55:33" itemprop="dateModified" datetime="2021-01-13T14:55:33+08:00">2021-01-13 14:55:33</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>软件开发中，常见的一种流程是 <code>开发-&gt;部署-&gt;测试-&gt;交付</code>。其中，前三个环节会重复多次。</p>
+<p>对于研发人员来说，频繁的低效，非自动部署很浪费时间。本文提供一种简易脚本来进行自动化一键部署。</p>
+<blockquote>
+<p>ci会有多种解决方案，本文方案总结来说就是</p>
+<ol>
+<li>本地打包 - vue-cli-service build</li>
+<li>上传本地文件到服务器 - 使用expect工具编写自动交互脚本</li>
+</ol>
+</blockquote>
+<p>最后会简单介绍一下 <code>expect</code> 工具的使用。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/04/auto-deploy-script/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2021/01/04/axios/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -201,89 +282,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/01/04/axios/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2020/12/04/auto-deploy-script/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lbp">
-      <meta itemprop="description" content="不积跬步无以至千里">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lbp的blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/04/auto-deploy-script/" class="post-title-link" itemprop="url">web自动化一键部署</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-04 17:50:19 17:50:19" itemprop="dateCreated datePublished" datetime="2020-12-04T17:50:19+08:00">2020-12-04 17:50:19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linus/" itemprop="url" rel="index"><span itemprop="name">linus</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>软件开发中，常见的一种流程是 <code>开发-&gt;部署-&gt;测试-&gt;交付</code>。其中，前三个环节会重复多次。</p>
-<p>对于研发人员来说，频繁的低效，非自动部署很浪费时间。本文提供一种简易脚本来进行自动化一键部署。</p>
-<blockquote>
-<p>ci会有多种解决方案，本文方案总结来说就是</p>
-<ol>
-<li>本地打包 - vue-cli-service build</li>
-<li>上传本地文件到服务器 - 使用expect工具编写自动交互脚本</li>
-</ol>
-</blockquote>
-<p>最后会简单介绍一下 <code>expect</code> 工具的使用。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/04/auto-deploy-script/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1038,12 +1036,12 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
