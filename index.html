@@ -238,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/12/04/auto-deploy-script/" class="post-title-link" itemprop="url">web部署（ci）简易脚本</a>
+            <a href="/2020/12/04/auto-deploy-script/" class="post-title-link" itemprop="url">web自动化一键部署</a>
         </h2>
 
         <div class="post-meta">
@@ -272,15 +272,15 @@
 
       
           <p>软件开发中，常见的一种流程是 <code>开发-&gt;部署-&gt;测试-&gt;交付</code>。其中，前三个环节会重复多次。</p>
-<p>对于研发人员来说，频繁的部署很浪费时间，本文提供一种简易脚本来做部署工作，<strong>适用于 Linux 环境下，部署单台机器</strong>。</p>
+<p>对于研发人员来说，频繁的低效，非自动部署很浪费时间。本文提供一种简易脚本来进行自动化一键部署。</p>
 <blockquote>
 <p>ci会有多种解决方案，本文方案总结来说就是</p>
 <ol>
 <li>本地打包 - vue-cli-service build</li>
-<li>上传本地文件到服务器 - ./upload.sh(上传./dist 文件到指定远程目录)</li>
+<li>上传本地文件到服务器 - 使用expect工具编写自动交互脚本</li>
 </ol>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"deploy113": "yarn install;vue-cli-service build;./upload.sh;exit 0"</span><br></pre></td></tr></table></figure>
+<p>最后会简单介绍一下 <code>expect</code> 工具的使用。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/12/04/auto-deploy-script/#more" rel="contents">
@@ -1043,7 +1043,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
