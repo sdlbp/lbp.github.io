@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios</title>
+</head>
+<body>
+<div id="content"></div>
+<button id="button"></button>
+<script>
+  const adapter = function (config) {
+    return new Promise(function (resolve, reject) {
+      var req = new XMLHttpRequest();
+      req.open(config.method.toUpperCase(),config.url, true);
+      req.onreadystatechange = function () {
+        if (!req || req.readyState !== 4) {
+          return;
+        }
+        console.log('20', 'scratch.html', 'onreadystatechange', req)
+        resolve(req.response);
+      };
+      req.send()
+    });
+  }
+
+  const dispatchRequest = function (config) {
+    return adapter(config).then(function (response) {
+      return response
+    }, function (reason) {
+      return Promise.reject(reason)
+    });
+  };
+
+  const request = function (config) {
+    var promise = Promise.resolve(config)
+    promise = promise.then(dispatchRequest, undefined)
+    return promise
+  };
+
+  document.getElementById('button').addEventListener(function () {
+    request({url: 'time.php', method:'get'}).then(res => {
+      document.getElementById('content').write('请求结果' + res);
+    });
+  })
+</script>
+</body>
+</html>
