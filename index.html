@@ -157,6 +157,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2021/01/19/css-bem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lbp">
+      <meta itemprop="description" content="不积跬步无以至千里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lbp的blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/19/css-bem/" class="post-title-link" itemprop="url">CSS的BEM规范</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-19 18:01:53 18:01:53" itemprop="dateCreated datePublished" datetime="2021-01-19T18:01:53+08:00">2021-01-19 18:01:53</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-19 19:32:06 19:32:06" itemprop="dateModified" datetime="2021-01-19T19:32:06+08:00">2021-01-19 19:32:06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>css是用来服务于html，给html增加样式。一般情况下我们使用外部样式表，在html中定义类名，使用选择器进行样式绑定。<br>css样式是没有作用域而言的，最终生效的样式效果取决于权重。<br>为了样式的健壮性，防止样式冲突。<br>一般而言我们使用<code>scss</code>或者<code>less</code>等预处理器，嵌套书写样式表。<br>这种形式，不便于项目的维护。当需求进行变更时，css的查找修改需查看一层层的嵌套结构。<br><strong>理想状态下，我们开发一套组件可以中，我们可以随意为其中的元素命名，没有复杂的嵌套，不用担心是否与组件以外的元素发生冲突</strong><br>bem解决这一问题的思路是：按照组件名是唯一性的思路，在对元素进行命名是包含组件名来保证组件内部的样式不会和外部冲突。<br>约定形式如下：<br><code>block__element--modifier</code>  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/19/css-bem/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2021/01/18/js-define-property/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -389,80 +470,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/01/14/ts-keywords/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://sdlbp.github.io/2021/01/19/css-bem/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lbp">
-      <meta itemprop="description" content="不积跬步无以至千里">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lbp的blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/19/css-bem/" class="post-title-link" itemprop="url">CSS的BEM规范</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-19 18:01:53 18:01:53" itemprop="dateCreated datePublished" datetime="2021-01-19T18:01:53+08:00">2021-01-19 18:01:53</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>css是用来服务于html，给html增加样式。一般情况下我们使用外部样式表，在html中定义类名，使用选择器进行样式绑定。<br>css样式是没有作用域而言的，最终生效的样式效果取决于权重。<br>为了样式的健壮性，防止样式冲突。<br>一般而言我们使用<code>scss</code>或者<code>less</code>等预处理器，嵌套书写样式表。<br>这种形式，不便于项目的维护。当需求进行变更时，css的查找修改需查看一层层的嵌套结构。<br><strong>理想状态下，我们开发一套组件可以中，我们可以随意为其中的元素命名，没有复杂的嵌套，不用担心是否与组件以外的元素发生冲突</strong><br>bem解决这一问题的思路是：按照组件名是唯一性的思路，在对元素进行命名是包含组件名来保证组件内部的样式不会和外部冲突。<br>约定形式如下：<br><code>block__element--modifier</code>  </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/19/css-bem/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
