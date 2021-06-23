@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lulu pure 学习</title>
+    <link rel="stylesheet" href="./lib/pure/css/common/ui.css">
+    <link rel="stylesheet" href="./lib/pure/js/common/all.js">
+    <link rel="stylesheet" href="./lib/pure/js/common/polyfill.js">
+    <style>
+
+
+/*region button*/
+.c-button {
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+    padding: 9px 15px;
+    cursor: pointer;
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #4C5161;
+    border: 1px solid #ABABAF;
+    background-color: white;
+    text-decoration: none;
+    transition: border-color .15s, opacity 0.15s, box-shadow .15s;
+
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    /*font-family: inherit;*/
+    /*overflow: visible;*/
+}
+.c-button[width="100%"] {
+    width: 100%;
+}
+
+/* div这里不设置也可以, 设置了可以满足自适应的场景 */
+div.c-button {
+    display: block;
+}
+
+[type="submit"]:not([class]) {
+    position: absolute;
+    clip: rect(0 0 0 0);
+}
+
+/* TODO outline */
+
+/* TODO 啥情况 */
+input.c-button,
+button.c-button {
+    height: 40px;
+}
+
+.c-button:hover {
+    color: #4c5161;
+    text-decoration: none;
+}
+
+.c-button:not(.disabled):not(.loading):not(:disabled):hover {
+    border-color: #ababaf;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.01), inset 0 0 0 100px rgba(0,0,0,.05);
+}
+.c-button:not(.disabled):not(.loading):not(:disabled):active {
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1), inset 0 0 0 100px rgba(0,0,0,.1);
+}
+
+/*一下为不同场景按钮设置*/
+.c-button[data-type="primary"],
+.c-button[data-type="remind"],
+.c-button[data-type="success"],
+.c-button[data-type="warning"],
+.c-button[data-type="warn"],
+.c-button[data-type="danger"],
+.c-button[data-type="error"] {
+    border: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    color: #fff;
+}
+
+/* primary button */
+.c-button[data-type="primary"],
+.c-button[data-type="remind"] {
+    background-color: #2a80eb;
+}
+
+/* success button */
+.c-button[data-type="success"] {
+    background-color: #1cad70;
+}
+
+/* warning button */
+.c-button[data-type="warning"],
+.c-button[data-type="warn"] {
+    background-color: #f59b00;
+}
+/* danger button */
+.c-button[data-type="danger"],
+.c-button[data-type="error"] {
+    background-color: #eb4646;
+}
+
+.c-button.disabled,
+.c-button:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+/*一些是loading效果*/
+.c-button.loading {
+    color: transparent !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    cursor: default;
+}
+
+/* for IE9 button按钮以及IE9+ input按钮，三个点 */
+input.c-button.loading,
+.c-button.loading::before {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0 512a512 512 0 1 0 1024 0A512 512 0 1 0 0 512z' fill='%232a80eb'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0 512a512 512 0 1 0 1024 0A512 512 0 1 0 0 512z' fill='%232a80eb'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0 512a512 512 0 1 0 1024 0A512 512 0 1 0 0 512z' fill='%232a80eb'/%3E%3C/svg%3E");
+    background-position-x: calc(50% - 10px), 50%, calc(50% + 10px);
+    /* IE不支持calc计算动画，因此是要具体数值代替 */
+    background-position-y: 18px, 18px, 18px;
+    background-size: 5px 5px;
+    animation: bubbling 1s infinite;
+}
+input.c-button[data-type]:not([data-type="normal"]).loading,
+.c-button[data-type]:not([data-type="normal"]).loading::before {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0 512a512 512 0 1 0 1024 0A512 512 0 1 0 0 512z' fill='%23fff'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0 512a512 512 0 1 0 1024 0A512 512 0 1 0 0 512z' fill='%23fff'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0 512a512 512 0 1 0 1024 0A512 512 0 1 0 0 512z' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+/* IE9+ */
+.c-button.loading::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-repeat: no-repeat;
+}
+/* IE10+，:invalid伪类IE10+才支持 */
+.c-button.loading::before,
+div:invalid {
+    width: 20px; height: 20px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M512 1024q-104 0-199-40-92-39-163-110T40 711Q0 616 0 512q0-15 10.5-25.5T36 476t25.5 10.5T72 512q0 90 35 171 33 79 94 140t140 95q81 34 171 34t171-35q79-33 140-94t95-140q34-81 34-171t-35-171q-33-79-94-140t-140-95q-81-34-171-34-15 0-25.5-10.5T476 36t10.5-25.5T512 0q104 0 199 40 92 39 163 110t110 163q40 95 40 199t-40 199q-39 92-110 163T711 984q-95 40-199 40z' fill='%232a80eb'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 20px 20px;
+    margin: auto;
+    animation: spin 1s linear infinite;
+}
+/* IE10+ */
+.c-button[data-type]:not([data-type="normal"]).loading::before,
+div:invalid {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M512 1024q-104 0-199-40-92-39-163-110T40 711Q0 616 0 512q0-15 10.5-25.5T36 476t25.5 10.5T72 512q0 90 35 171 33 79 94 140t140 95q81 34 171 34t171-35q79-33 140-94t95-140q34-81 34-171t-35-171q-33-79-94-140t-140-95q-81-34-171-34-15 0-25.5-10.5T476 36t10.5-25.5T512 0q104 0 199 40 92 39 163 110t110 163q40 95 40 199t-40 199q-39 92-110 163T711 984q-95 40-199 40z' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+@keyframes bubbling {
+    0% {
+        background-position-y: 18px, 18px, 18px;
+    }
+    15% {
+        background-position-y: 15px, 18px, 18px;
+    }
+    30% {
+        background-position-y: 17px, 15px, 18px;
+    }
+    45% {
+        background-position-y: 18px, 17px, 15px;
+    }
+    60% {
+        background-position-y: 18px, 18px, 17px;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.c-button.error {
+    border-color: #eb4646 !important;
+}
+
+/*endregion*/
+
+    /*region input*/
+
+    /*endregion*/
+
+    </style>
+</head>
+<body>
+<!--region input-->
+<div>
+    <p>lulu</p>
+</div>
+<div>
+    <p>自己</p>
+    <input type="text">
+</div>
+<!--endregion -->
+
+<!--region button-->
+<div>
+    <p>lulu</p>
+    <div class="ui-button">div button</div>
+    <button class="ui-button">button</button>
+    <button data-type="success" class="ui-button">success</button>
+    <button class="ui-button" disabled>disable</button>
+    <button class="ui-button error">error</button>
+    <a class="ui-button loading">a loading</a>
+</div>
+<div>
+    <p>自己</p>
+    <button class="c-button">button</button>
+    <button data-type="success" class="c-button">success</button>
+    <button class="c-button" disabled>disable</button>
+    <input type="button" class="c-button" value="input button">
+    <button class="c-button error">error</button>
+</div>
+<!--endregion-->
+
+
+</body>
+</html>

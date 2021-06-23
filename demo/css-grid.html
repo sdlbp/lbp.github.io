@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css-grid</title>
+    <style>
+        .container {
+            border: 1px solid red;
+            display: grid;
+            grid-template-rows: 100px 100px 100px;
+            grid-template-columns: 100px 100px 100px;
+        }
+        .item {
+            border: 1px solid rosybrown;
+        }
+    </style>
+</head>
+<body>
+<div class="handleWrapper">
+    <input type="radio" name="show" id="show"/>
+    <label for="show">显示</label>
+    <input type="radio" name="hide" id="hide"/>
+    <label for="hide">隐藏</label>
+    <input type="radio" name="switch" id="switch"/>
+    <label for="switch">切换显隐</label>
+</div>
+<div class="container">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">4</div>
+    <div class="item">5</div>
+    <div class="item">6</div>
+</div>
+</body>
+</html>
