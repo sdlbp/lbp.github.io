@@ -47,7 +47,7 @@
         /*region tag*/
         .tag-wrapper {
             border-bottom: 1px solid darkgray;
-            padding: 20px 10px 40px 10px;
+            padding: 20px 20px 40px 20px;
         }
 
         .tag-wrapper > a {
@@ -73,6 +73,18 @@
             color: green;
         }
 
+        .tag-wrapper .link {
+            cursor: pointer;
+            text-decoration: underline;
+            position: relative;
+        }
+
+        .tag-wrapper .link:after {
+            content: 'MDN参考';
+            color: #212121;
+            font-size: 14px;
+        }
+
         /*endregion*/
 
     </style>
@@ -91,23 +103,27 @@
     </div>
     <div class="wrapper">
 
-        <div>
-            <p>不带任何样式的原生h5效果</p>
+        <div class="tag-wrapper">
+            <p>不带任何样式的原生h5标签效果</p>
         </div>
 
         <!--   region     -->
         <div class="tag-wrapper">
-            <a id="a">a</a><br>
-            行内标签,属性: <br>
-            href: 值是url,表示链接的地址 <br>
-            target: 表示链接地址打开方式
-            <div class="a">
+            <a id="a">a</a>-<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a" class="link"></a><br>
+            <p>行内标签,属性: </p>
+            <p>href: 值是url,表示链接的地址 </p>
+            <p>target: 表示链接地址打开方式</p>
+            <p>download: 用来下载一些浏览器直接打开的资源，比如图片。download</p>
+            <div class="example">
                 <a href="http://www.baidu.com">打开百度</a>
                 <a id="target_dis"></a>
                 <a href="http://www.baidu.com" target="_blank">_black</a>
                 <a href="http://www.baidu.com" target="_top">_top</a>
                 <a href="http://www.baidu.com" target="_self">_self</a>
                 <a href="http://www.baidu.com" target="_parent">_parent</a>
+                <br>
+                <a href="./img/adown.png">点击预览图片</a>
+                <a href="./img/adown.png" download>点击下载图片</a>
             </div>
         </div>
         <!-- endregion -->
@@ -218,24 +234,13 @@
 
         <!--   region     -->
         <div class="tag-wrapper">
-            <a id="base">base</a><br>
-            base标签必须位于<a href="head">head</a>元素内部<br>
-            用来补全相对路径<br>
-            可以作用于<a href="#a">a</a>,<a href="#link">link</a>,<a href="#form">form</a>,<a href="#img">img</a>标签中的<b>相对路径url</b><br>
-            <table border="">
-                <tr>
-                    <th>属性</th>
-                    <th>含义</th>
-                </tr>
-                <tr>
-                    <td>target</td>
-                    <td><a href="#target_dis">参考</a></td>
-                </tr>
-                <tr>
-                    <td>href</td>
-                    <td>url</td>
-                </tr>
-            </table>
+            <a id="base">base</a>-<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/base" class="link"></a><br>
+            <p>base标签必须位于<a href="#head">head</a>元素内部<br></p>
+            <p>用来补全相对路径</p>
+            <p>可以作用于<a href="#a">a</a>,<a href="#link">link</a>,<a href="#form">form</a>,<a href="#img">img</a>标签中的<b>相对路径url</b></p>
+            <p>属性</p>
+            <p>href: 用于文档中相对URL的base，如果不设定base默认为document.location.href</p>
+            <p>target:</p>
         </div>
         <!-- endregion -->
 
@@ -411,11 +416,12 @@
 
         <!--   region     -->
         <div class="tag-wrapper">
-            <a id="del">del</a><br>
+            <a id="del">del</a>-<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/del" class="link"></a><br>
             定义文档中被删除的文本<br>
             主流浏览器都不支持它的属性:cite和datatime<br>
-            效果如下:<br>
-            <del>del示例</del>
+            <div class="example">
+                <del>del示例</del>
+            </div>
         </div>
         <!-- endregion -->
 
@@ -1182,10 +1188,10 @@
 
         <!--   region     -->
         <div class="tag-wrapper">
-            <a id="ins">ins</a><br>
-            貌似就是一个带有下划线的标签<br>
+            <a id="ins">ins</a>-<a class="link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/ins"></a><br>
+            定义一个被插入到文档的文本<br>
             <div class="example">
-                <ins>ins演示</ins>
+                <ins>外观上貌似就有个下划线</ins>
             </div>
         </div>
         <!-- endregion -->
