@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="lbp的blog">
 <meta property="og:description" content="主要介绍  如何配置 vue-cli4 gzip 压缩 nginx 支持 gzip">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://sdlbp.github.io/2020/11/13/web-gzip/gzip-off.jpg">
-<meta property="og:image" content="https://sdlbp.github.io/2020/11/13/web-gzip/gzip-on.jpg">
+<meta property="og:image" content="https://sdlbp.github.io/imgs/web_gzip_gzip-off.jpg">
+<meta property="og:image" content="https://sdlbp.github.io/imgs/web_gzip_gzip-on.jpg">
 <meta property="article:published_time" content="2020-11-13T05:46:32.000Z">
 <meta property="article:modified_time" content="2020-11-13T05:46:32.000Z">
 <meta property="article:author" content="lbp">
 <meta property="article:tag" content="性能优化">
 <meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://sdlbp.github.io/2020/11/13/web-gzip/gzip-off.jpg">
+<meta name="twitter:image" content="https://sdlbp.github.io/imgs/web_gzip_gzip-off.jpg">
 
 <link rel="canonical" href="https://sdlbp.github.io/2020/11/13/web-gzip/">
 
@@ -195,10 +195,6 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">web</span></a>
                 </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
             </span>
 
           
@@ -251,8 +247,8 @@
 <p>配置如下：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       <span class="number">80</span>;</span><br><span class="line">    server_name wuhan.aioc.jdcloud.com;</span><br><span class="line"></span><br><span class="line">    location /tyjrgl &#123;</span><br><span class="line">        gzip_static on;</span><br><span class="line">        gzip_http_version <span class="number">1.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>gzip_http_version</code> 配置的原因是， 代理服务器Nginx，转发是 1.0</p>
-<p>效果如下：<br> <img src="/2020/11/13/web-gzip/gzip-off.jpg" alt="压缩前"></p>
-<p> <img src="/2020/11/13/web-gzip/gzip-on.jpg" alt="压缩后"></p>
+<p>效果如下：<br> <img src="/imgs/web_gzip_gzip-off.jpg" alt="压缩前"></p>
+<p> <img src="/imgs/web_gzip_gzip-on.jpg" alt="压缩后"></p>
 <blockquote>
 <p><code>ngx_http_gzip_module</code> 模块不是 默认添加的，需要手动添加到 <code>nginx</code> 中。</p>
 <p>添加 ngx_http_gzip_module 的一些注意事项</p>
@@ -391,7 +387,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.5.9/lottie.js"></script>
+    <style>
+        .bg {
+            width: 352px;
+            height: 222px;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .bg .header {
+            height: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .unit {
+            padding-right: 10px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .header .title {
+            font-size: 14px;
+            color: #fff;
+            padding-left: 14px;
+        }
+
+        /*region bg2*/
+        .bg2 {
+            background: #6637B8;
+            /*clip-path: path('M 10 0h 332l 10 10v 68l -2 4v 62l 2 4v 68l -10 10h -332l -10 -10v -68l 2 -4v -62l -2 -4v -68z');*/
+        }
+
+        .bg2 .header {
+            position: relative;
+            background: top right url("data:image/svg+xml,%3Csvg width='186' height='32' viewBox='0 0 186 32' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3Cpath id='a' d='M0 0h186v32H0z'/%3E%3ClinearGradient x1='100%25' y1='50%25' x2='13.534%25' y2='50.99%25' id='c'%3E%3Cstop stop-color='%23743CB3' stop-opacity='0' offset='0%25'/%3E%3Cstop stop-color='%236A36A8' stop-opacity='.801' offset='38.713%25'/%3E%3Cstop stop-color='%23401C7C' stop-opacity='0' offset='100%25'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cmask id='b' fill='%23fff'%3E%3Cuse xlink:href='%23a'/%3E%3C/mask%3E%3Cuse fill-opacity='0' fill='%23000' xlink:href='%23a'/%3E%3Cg opacity='.498' mask='url(%23b)' stroke='url(%23c)'%3E%3Cpath d='M-18.103 18.59c5-.35 55.54-8.981 97.496-11.52 41.956-2.539 35.977.416 61.478-1.367 17-1.19 32.652-8.023 46.956-20.501'/%3E%3Cpath d='M-17.545 26.571c5-.35 55.54-8.982 97.496-11.52 41.956-2.54 35.977.415 61.478-1.368 17-1.189 32.653-8.022 46.956-20.5'/%3E%3Cpath d='M-17.824 22.58c5-.349 55.54-8.981 97.496-11.52 41.956-2.539 35.977.416 61.478-1.367 17-1.189 32.653-8.022 46.956-20.5'/%3E%3Cpath d='M-17.266 30.561c5-.35 55.54-8.982 97.496-11.52 41.956-2.54 35.977.416 61.478-1.368 17-1.188 32.653-8.022 46.956-20.5'/%3E%3Cpath d='M-16.987 34.551c5-.35 55.54-8.981 97.496-11.52 41.956-2.539 35.977.416 61.478-1.367 17-1.19 32.653-8.023 46.956-20.501'/%3E%3Cpath d='M-16.638 39.54c5-.35 55.54-8.983 97.496-11.521 41.956-2.54 35.977.416 61.478-1.367 17-1.19 32.652-8.023 46.956-20.501'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat,
+            linear-gradient(263.34deg, rgba(44, 23, 72, 1) 0%, rgba(74, 30, 147, 1) 88.68743937024406%, rgba(95, 35, 199, 1) 100%);
+        }
+
+        .bg21 {
+            height: 100%;
+            background: linear-gradient(180deg, rgba(50, 29, 79, 1) 0%, rgba(27, 6, 51, 1) 52.80502344837328%, rgba(17, 1, 34, 1) 100%);
+            /*clip-path: path('M 10.587610681567874 1h 330.82477863686427L 351 10.587610681567874V 77.41238931843212l -6 6V 138.58761068156787l 6 6V 211.41238931843213L 341.41238931843213 221H 10.587610681567874L 1 211.41238931843213V 144.58761068156787l 6 -6V 83.41238931843212l -6 -6L 1 10.587610681567874z');*/
+        }
+
+        /*endregion*/
+
+        /* region bg4*/
+        .bg4 {
+            background: linear-gradient(180deg, #162355 0%, #060C26 52%, #070B22 100%);
+            background-clip: padding-box;
+            border: 1px solid transparent;
+            border-radius: 8px;
+        }
+
+        .bg4 .header {
+            background: linear-gradient(90deg, rgba(17, 27, 69, 1) 0%, rgba(16, 27, 68, 1) 100%) left 195px top / cover no-repeat;
+            border-radius: 8px;
+        }
+
+        .bg4:after {
+            content: '';
+            position: absolute;
+            border-radius: 8px;
+            top: -1px;
+            bottom: -1px;
+            left: -1px;
+            right: -1px;
+            background: linear-gradient(180deg, #84B6EB 0%, #2E7ED1 51%, #116BC9 100%);
+            z-index: -1;
+        }
+
+        /* endregion */
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+<img src="http://storage.360buyimg.com/fgfgfg/Progressive-login.jpg" alt="">
+<br>
+<div class="bg bg2" id="bg2">
+    <div class="bg21" id="bg21">
+        <div class="header">
+            <div class="title">电商企业规模</div>
+            <div class="unit">单位：亿元</div>
+        </div>
+    </div>
+</div>
+<br>
+<!--<div class="bg bg4">-->
+<!--    <div class="header">-->
+<!--        <div class="title">电商企业规模</div>-->
+<!--        <div class="unit">单位：亿元</div>-->
+<!--    </div>-->
+<!--</div>-->
+<script>
+  /**
+   *
+   * @param radius 等边三角形切角的边
+   * @param mHeight 侧边矩形的高(外边)
+   * @param width 矩形的宽
+   * @param height 矩形的高
+   * @returns {string} 输出的路径
+   */
+  function path(radius, mHeight, width, height) {
+    const a = 2; // 侧边矩形
+    let path = '';
+    // 起点 顶部左上角
+    path += `M ${ radius } 0`;
+    path += `h ${ width - 2 * radius }`; // 水平向右移动
+    path += `l ${ radius } ${ radius }`; // 相对位置画出切边
+    // 绘制右侧侧边矩形
+    path += `v ${ (height - 2 * radius - mHeight) / 2 }` // 到侧边矩形起点
+    path += `l -${ a } ${ a }` // 内扣
+    path += `v ${ mHeight - 2 * a }` // 垂直往下移动
+    path += `l ${ a } ${ a }` // 外扣
+    path += `v ${ (height - 2 * radius - mHeight) / 2 }` // 垂直往下移动
+
+    path += `l ${ -radius } ${ radius }`; // 相对位置画出切边
+    path += `h -${ (width - 2 * radius - mHeight) / 2 }` // 到底部矩形起点
+    path += `l -${ a } ${ -a }` // 内扣
+    path += `h -${ mHeight - 2 * a }` // 水平往左移动
+    path += `l -${ a } ${ a }` // 外扣
+    path += `h -${ (width - 2 * radius - mHeight) / 2 }` // 水平往左移动
+    path += `l ${ -radius } ${ -radius }`; // 相对位置画出切边
+
+    // 绘制左侧侧边矩形
+    path += `v -${ (height - 2 * radius - mHeight) / 2 }` // 到侧边矩形起点
+    path += `l ${ a } -${ a }` // 内扣
+    path += `v -${ mHeight - 2 * a }` // 垂直往上移动
+    path += `l -${ a } -${ a }` // 外扣
+    path += `v -${ (height - 2 * radius - mHeight) / 2 }` // 垂直往上移动
+
+    path += 'z';
+    return path;
+  }
+
+  function path1(radius, mHeight,width, height, borderWidth) {
+    let path = '';
+    const a = 4; // 侧边矩形
+    const b = borderWidth / Math.sin(45); // 斜边长度
+    const c = (height - 2 * radius - mHeight) / 2; // 侧边矩形到切角距离
+    const d = (width - 2 * radius - mHeight) / 2; // 底部矩形到切角距离
+    path += `M ${radius + b / 2.0} ${borderWidth}`;
+    path += `h ${width - 2 * radius - b}`;
+    path += `L ${ width - borderWidth } ${ radius + b / 2.0 }`; // 右上角结束点
+
+    // 绘制右侧侧边矩形
+    path += `V ${ c + radius - b /2.0 }` // 侧边矩形起点
+    path += `l -${ a } ${ a }` // 内扣
+    path += `V ${ c + radius + mHeight - a  + b / 2.0}` // 垂直往下移动
+    path += `l ${ a } ${ a }` // 外扣
+    // 绘制右下角切角
+    path += `V ${ height - radius - b / 2.0 }` // 切角右下角起点
+    path += `L ${width - radius - b/2.0} ${height - borderWidth}` // 切角右下角结束点
+    // 绘制右侧侧边矩形
+    path += `H ${ d + radius + mHeight  + b / 2.0}` // 水平往左
+    path += `l -${ a } -${ a }` // 内扣
+    path += `H ${ d + radius + a - b /2.0 }` // 侧边矩形起点
+    path += `l -${ a } ${ a }` // 外扣
+    // 绘制左下角切角
+    path += `H ${radius + b / 2.0}`; // 切角左下角起点
+    path += `L ${borderWidth} ${height - radius - b / 2.0}` // 切角左下角结束点
+    // 绘制左侧侧边矩形
+    path += `V ${ radius + c + mHeight + b / 2.0}` // 垂直往上移动
+    path += `l ${ a } -${ a }` // 内扣
+    path += `V ${ c + radius + a - b / 2.0}` // 侧边矩形起点
+    path += `l -${ a } -${ a }` // 外扣
+    path += `L ${borderWidth} ${radius + b / 2.0}` // 切角左上角起点
+    path += 'z';
+    return path;
+  }
+
+  document.getElementById('bg2').style.setProperty('clip-path', `path('${path(10, 66, 352, 222)}')`)
+  document.getElementById('bg21').style.setProperty('clip-path', `path('${path1(10, 66, 352, 222, 1)}')`)
+</script>
+<div style="width:200px;height:200px;" id="bodymovin"></div>
+
+<script>
+  var animData = {
+    wrapper: document.getElementById('bodymovin'),
+    animType: 'svg',
+    loop: true,
+    prerender: true,
+    autoplay: true,
+    path: './animal.json'
+  };
+  var anim = bodymovin.loadAnimation(animData);
+</script>
+</body>
+</html>

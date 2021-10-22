@@ -28,10 +28,10 @@
 <meta property="og:site_name" content="lbp的blog">
 <meta property="og:description" content="hexo基本使用，next(7.8.0)主题配置。各种使用技巧，常用问题">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://sdlbp.github.io/2020/03/23/hexo/img.png">
-<meta property="og:image" content="https://sdlbp.github.io/2020/03/23/hexo/package.png">
-<meta property="og:image" content="https://sdlbp.github.io/2020/03/23/hexo/count.png">
-<meta property="og:image" content="https://sdlbp.github.io/2020/03/23/hexo/comment.png">
+<meta property="og:image" content="https://sdlbp.github.io/imgs/hexo_img.png">
+<meta property="og:image" content="https://sdlbp.github.io/imgs/hexo_package.png">
+<meta property="og:image" content="https://sdlbp.github.io/imgs/hexo_count.png">
+<meta property="og:image" content="https://sdlbp.github.io/imgs/hexo_comment.png">
 <meta property="article:published_time" content="2020-03-23T03:57:56.000Z">
 <meta property="article:modified_time" content="2021-01-19T11:03:28.000Z">
 <meta property="article:author" content="lbp">
@@ -39,7 +39,7 @@
 <meta property="article:tag" content="工具">
 <meta property="article:tag" content="next">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://sdlbp.github.io/2020/03/23/hexo/img.png">
+<meta name="twitter:image" content="https://sdlbp.github.io/imgs/hexo_img.png">
 
 <link rel="canonical" href="https://sdlbp.github.io/2020/03/23/hexo/">
 
@@ -203,7 +203,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                  <a href="/categories/base/" itemprop="url" rel="index"><span itemprop="name">base</span></a>
                 </span>
             </span>
 
@@ -229,6 +229,9 @@
 <p>hexo基本使用，next(7.8.0)主题配置。各种使用技巧，常用问题</p>
 </blockquote>
 <a id="more"></a>
+
+<h1 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo new draft ab.md <span class="comment">#创建草稿</span></span><br><span class="line">hexo new draft /dir/ab.md <span class="comment">#创建带路径草稿</span></span><br><span class="line">hexo publish ** <span class="comment">#发布草稿文章</span></span><br><span class="line">hexo server --draft <span class="comment">#显示草稿</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="next-安装"><a href="#next-安装" class="headerlink" title="next 安装"></a>next 安装</h1><ul>
 <li>clone 到本地<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></li>
 <li>在站点 <code>_config.yml</code> 中配置<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: next</span><br></pre></td></tr></table></figure>
@@ -242,8 +245,8 @@
 <blockquote>
 <p>完成以上两步之后, 执行 <code>hexo new example</code> 在生成 example.md 文件时,会生成同名文件夹 example, 在文章中直接使用md语法插入图片即可</p>
 </blockquote>
-<p><img src="/2020/03/23/hexo/img.png" alt="示例图片"></p>
-<p><img src="/2020/03/23/hexo/package.png" alt="package"></p>
+<p><img src="/imgs/hexo_img.png" alt="示例图片"></p>
+<p><img src="/imgs/hexo_package.png" alt="package"></p>
 <h2 id="图片名称"><a href="#图片名称" class="headerlink" title="图片名称"></a>图片名称</h2><p>如果在next主题中想要看到图片底部的标题, 可以设置 <code>fancybox: true</code> </p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># FancyBox is a tool that offers a nice and elegant way to add zooming functionality for images.</span></span><br><span class="line"><span class="comment"># For more information: https://fancyapps.com/fancybox</span></span><br><span class="line"><span class="attr">fancybox:</span> <span class="string">ture</span></span><br></pre></td></tr></table></figure>
 <h1 id="站点标签-分类"><a href="#站点标签-分类" class="headerlink" title="站点标签/分类"></a>站点标签/分类</h1><p>给站点配置 <code>分类</code> 和 <code>标签</code> 的操作相同</p>
@@ -262,7 +265,7 @@
 <h1 id="首页展示摘要"><a href="#首页展示摘要" class="headerlink" title="首页展示摘要"></a>首页展示摘要</h1><p>在 <a href="https://theme-next.org/next-7-6-0-released/" target="_blank" rel="noopener external nofollow noreferrer">next 7.6.0</a> 中移除了 <code>auto_excerpt</code> , 可以在文章中插入 <code>&lt;!-- more --&gt;</code> 来精确控制摘要 </p>
 <h1 id="阅读次数统计"><a href="#阅读次数统计" class="headerlink" title="阅读次数统计"></a>阅读次数统计</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">busuanzi_count:</span><br><span class="line">  enable: true               # 设true 开启</span><br><span class="line">  total_visitors: true       # 总阅读人数（uv数）</span><br><span class="line">  total_visitors_icon: user  # 阅读总人数的图标</span><br><span class="line">  total_views: true          # 总阅读次数（pv数）</span><br><span class="line">  total_views_icon: eye      # 阅读总次数的图标</span><br><span class="line">  post_views: true           # 开启内容阅读次数</span><br><span class="line">  post_views_icon: eye       # 内容页阅读数的图标</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/03/23/hexo/count.png" alt="阅读次数统计"></p>
+<p><img src="/imgs/hexo_count.png" alt="阅读次数统计"></p>
 <h1 id="添加gitalk评论"><a href="#添加gitalk评论" class="headerlink" title="添加gitalk评论"></a>添加gitalk评论</h1><blockquote>
 <p>Gitalk 是一个基于 GitHub Issue 和 Preact 开发的评论插件。配置起来相对简单</p>
 </blockquote>
@@ -271,11 +274,9 @@
 <li>创建一个 <a href="https://github.com/settings/applications/new" target="_blank" rel="noopener external nofollow noreferrer">GitHub Application</a></li>
 <li>在主题中配置 gitalk</li>
 </ul>
-<p><img src="/2020/03/23/hexo/comment.png" alt="Gitalk评论样式"></p>
+<p><img src="/imgs/hexo_comment.png" alt="Gitalk评论样式"></p>
 <h1 id="代码块样式设置"><a href="#代码块样式设置" class="headerlink" title="代码块样式设置"></a>代码块样式设置</h1><p>在主题 <code>_config.yml</code> 中修改如下配置</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="comment"># Code Highlight theme</span></span><br><span class="line">  <span class="comment"># Available values: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic</span></span><br><span class="line">  <span class="comment"># See: https://github.com/chriskempson/tomorrow-theme</span></span><br><span class="line">  <span class="attr">highlight_theme:</span> <span class="string">night</span></span><br><span class="line">  <span class="comment"># Add copy button on codeblock</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># Show text copy result.</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># Available values: default | flat | mac</span></span><br><span class="line">    <span class="attr">style:</span> <span class="string">mac</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="草稿的使用"><a href="#草稿的使用" class="headerlink" title="草稿的使用"></a>草稿的使用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new draft ** <span class="comment">#创建草稿</span></span><br><span class="line">hexo server --draft <span class="comment">#显示草稿</span></span><br><span class="line">hexo publish ** <span class="comment">#发布草稿文章</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="嵌入codepen代码"><a href="#嵌入codepen代码" class="headerlink" title="嵌入codepen代码"></a>嵌入codepen代码</h1><p>点击 codepen 右下角的 <code>embed</code> 按钮,把生成的代码,复制到 <code>md</code> 文件中即可</p>
 <h1 id="按照更新时间排序"><a href="#按照更新时间排序" class="headerlink" title="按照更新时间排序"></a>按照更新时间排序</h1><p>如下所示， <code>order_by</code> 配置为 <code>-updated</code><br>默认为 <code>-date</code> 是按照创建时间进行排序</p>
@@ -370,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#next-安装"><span class="nav-number">1.</span> <span class="nav-text">next 安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片"><span class="nav-number">2.</span> <span class="nav-text">图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入图片"><span class="nav-number">2.1.</span> <span class="nav-text">插入图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片名称"><span class="nav-number">2.2.</span> <span class="nav-text">图片名称</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站点标签-分类"><span class="nav-number">3.</span> <span class="nav-text">站点标签&#x2F;分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#首页展示摘要"><span class="nav-number">4.</span> <span class="nav-text">首页展示摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#阅读次数统计"><span class="nav-number">5.</span> <span class="nav-text">阅读次数统计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加gitalk评论"><span class="nav-number">6.</span> <span class="nav-text">添加gitalk评论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码块样式设置"><span class="nav-number">7.</span> <span class="nav-text">代码块样式设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#草稿的使用"><span class="nav-number">8.</span> <span class="nav-text">草稿的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌入codepen代码"><span class="nav-number">9.</span> <span class="nav-text">嵌入codepen代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按照更新时间排序"><span class="nav-number">10.</span> <span class="nav-text">按照更新时间排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo当前文章中使用锚点"><span class="nav-number">11.</span> <span class="nav-text">hexo当前文章中使用锚点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo中引用自身文章"><span class="nav-number">12.</span> <span class="nav-text">hexo中引用自身文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">13.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本命令"><span class="nav-number">1.</span> <span class="nav-text">基本命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#next-安装"><span class="nav-number">2.</span> <span class="nav-text">next 安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片"><span class="nav-number">3.</span> <span class="nav-text">图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入图片"><span class="nav-number">3.1.</span> <span class="nav-text">插入图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片名称"><span class="nav-number">3.2.</span> <span class="nav-text">图片名称</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站点标签-分类"><span class="nav-number">4.</span> <span class="nav-text">站点标签&#x2F;分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#首页展示摘要"><span class="nav-number">5.</span> <span class="nav-text">首页展示摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#阅读次数统计"><span class="nav-number">6.</span> <span class="nav-text">阅读次数统计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加gitalk评论"><span class="nav-number">7.</span> <span class="nav-text">添加gitalk评论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码块样式设置"><span class="nav-number">8.</span> <span class="nav-text">代码块样式设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌入codepen代码"><span class="nav-number">9.</span> <span class="nav-text">嵌入codepen代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按照更新时间排序"><span class="nav-number">10.</span> <span class="nav-text">按照更新时间排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo当前文章中使用锚点"><span class="nav-number">11.</span> <span class="nav-text">hexo当前文章中使用锚点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo中引用自身文章"><span class="nav-number">12.</span> <span class="nav-text">hexo中引用自身文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">13.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -391,7 +392,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
