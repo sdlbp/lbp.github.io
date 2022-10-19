@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+<script type="text/javascript">
+  const data = {
+    "type": "force",
+  }
+  const idMapByName  = (data) => {
+    const result = {}
+    data.forEach((item, index) => {
+      result[item.name] = index;
+    })
+    return result;
+  };
+  const categories = [
+    {
+      name: 'basic',
+    },
+    {
+      name: 'engine',
+    },
+    {
+      name: 'scene'
+    },
+    {
+      name: 'camera'
+    },
+    {
+      name: 'light'
+    },
+    {
+      name: 'mesh'
+    },
+    {
+      name: 'texture'
+    },
+    {
+      name: 'interface'
+    },
+    {
+      name: 'material'
+    },
+    {
+      name: 'sprite'
+    },
+    {
+      name: 'particle'
+    },
+    {
+      name: 'tool'
+    },
+    {
+      name: 'event'
+    },
+    {
+      name: 'collision' // 碰撞
+    },
+    {
+      name: 'todo'
+    },
+  ]
+  const categoryIds = idMapByName(categories);
+  function nodeCategoryByName (name) {
+    return categoryIds[name]
+  }
+  function nodeItem (name, category) {
+    return {
+      name: name,
+      category: categoryIds[category]
+    }
+  }
+  const nodes = [
+    // basic
+    nodeItem('Node', 'basic'),
+
+    // engine
+    nodeItem('ThinEngine', 'engine'),
+    nodeItem('Engine', 'engine'),
+    nodeItem('NullEngine', 'engine'),
+    nodeItem('WebGPUGLEngine', 'engine'),
+
+    // camber
+    nodeItem('Camera', 'camera'),
+    nodeItem('TargetCamera', 'camera'),
+    nodeItem('FreeCamera', 'camera'),
+    nodeItem('FlyCamera', 'camera'),
+    nodeItem('FollowCamera', 'camera'),
+    nodeItem('ArcRotateCamera', 'camera'),
+    nodeItem('ArcFollowCamera', 'camera'),
+
+    // light
+    nodeItem('HemisphericLight', 'light'),
+
+    // scene
+    nodeItem('Scene', 'scene'),
+    nodeItem('Abstract', 'scene'),
+
+    // mesh
+    nodeItem('MeshBuilder', 'mesh'),
+    nodeItem('ImportMeshAsync', 'mesh'),
+    nodeItem('TransformNode', 'mesh'),
+    nodeItem('AbstractMesh', 'mesh'),
+    nodeItem('Mesh', 'mesh'),
+
+    // material
+    nodeItem('CustomMaterial', 'material'),
+    nodeItem('StandardMaterial', 'material'),
+    nodeItem('PushMaterial', 'material'),
+
+    // texture
+    nodeItem('BaseTexture', 'texture'),
+    nodeItem('Texture', 'texture'),
+    nodeItem('ProceduralTexture', 'texture'),
+    nodeItem('RawTexture', 'texture'),
+    nodeItem('RawTexture2DArray', 'texture'),
+    nodeItem('RenderTargetTexture', 'texture'),
+    nodeItem('VideoTexture', 'texture'),
+    nodeItem('DynamicTexture', 'texture'),
+    nodeItem('RawTexture3D', 'texture'),
+
+    // tool
+    nodeItem('Color3', 'tool'),
+    nodeItem('Color4', 'tool'),
+
+    // math
+    nodeItem('Vector4', 'math'),
+    nodeItem('Vector3', 'math'),
+
+    // interface
+    nodeItem('IAnimatable', 'interface'),
+    nodeItem('IBehaviorAware', 'interface'),
+    nodeItem('Behavior', 'interface'),
+    nodeItem('IDisposable', 'interface'), // 如果持有一定的资源，可以实现此接口的dispose方法释放资源
+    nodeItem('ISpriteManager', 'interface'),
+    nodeItem('ICullable', 'interface'),
+    nodeItem('IGetSetVerticesData', 'interface'),
+    nodeItem('IClipPlanesHolder', 'interface'),
+    nodeItem('EngineOptions', 'interface'),
+    nodeItem('WebGLContextAttributes', 'interface'),
+    nodeItem('EngineFeatures', 'interface'),
+    nodeItem('HostInformation', 'interface'),
+    nodeItem('IEvent', 'interface'), // 事件描述
+    nodeItem('IUIEvent', 'interface'), // UI事件描述，多了坐标信息
+    nodeItem('IKeyboardEvent', 'interface'), // UI事件描述，多了坐标信息
+    nodeItem('IMouseEvent', 'interface'), // 鼠标事件
+    nodeItem('IWheelEvent', 'interface'),
+    nodeItem('IPointerEvent', 'interface'),
+
+    // sprite
+    nodeItem('SpriteManager', 'sprite'),
+
+    // 粒子
+    nodeItem('ParticleSystem', 'particle'),
+
+    // event
+    nodeItem('PointerInfoBase', 'event'),
+    nodeItem('PointerInfo', 'event'),
+
+    // collision
+    nodeItem('PickingInfo', 'collision'),
+
+    // TODO
+    nodeItem('SceneLoader', 'todo'),
+    nodeItem('Animation', 'todo'),
+  ];
+  const nodeIds = idMapByName(nodes);
+  function dependent(from, to) {
+    return {
+      source: nodeIds[from],
+      target: nodeIds[to],
+      lineStyle: {
+        type: 'dashed'
+      }
+    }
+  }
+
+  function interface(from, to) {
+    return {
+      source: nodeIds[from],
+      target: nodeIds[to],
+      lineStyle: {
+        type: 'dashed',
+        color: 'blue'
+      }
+    }
+  }
+  function inherit(from, to) {
+    return {
+      source: nodeIds[from],
+      target: nodeIds[to]
+    }
+  }
+  const links =  [
+    // 继承
+    inherit('ISpriteManager', 'IDisposable'),
+
+    inherit('ThinEngine', 'Engine'),
+    inherit('Engine', 'NullEngine'),
+    inherit('Engine', 'WebGPUGLEngine'),
+
+    inherit('Scene', 'Abstract'),
+
+    inherit('CustomMaterial', 'StandardMaterial'),
+    inherit('StandardMaterial', 'PushMaterial'),
+
+    inherit('Camera', 'Node'),
+    inherit('TargetCamera', 'Camera'),
+    inherit('FreeCamera', 'TargetCamera'),
+    inherit('ArcRotateCamera', 'TargetCamera'),
+    inherit('FlyCamera', 'TargetCamera'),
+    inherit('FollowCamera', 'TargetCamera'),
+    inherit('ArcFollowCamera', 'TargetCamera'),
+
+
+    inherit('Mesh', 'AbstractMesh'),
+    inherit('AbstractMesh', 'TransformNode'),
+    inherit('TransformNode', 'Node'),
+
+    inherit('Texture', 'BaseTexture'),
+    inherit('ProceduralTexture', 'Texture'),
+    inherit('RawTexture', 'Texture'),
+    inherit('RawTexture2DArray', 'Texture'),
+    inherit('RenderTargetTexture', 'Texture'),
+    inherit('VideoTexture', 'Texture'),
+    inherit('DynamicTexture', 'Texture'),
+    inherit('RawTexture3D', 'Texture'),
+
+
+    inherit('IUIEvent', 'IEvent'),
+    inherit('IKeyboardEvent', 'IUIEvent'),
+    inherit('IMouseEvent', 'IUIEvent'),
+    inherit('IPointerEvent', 'IMouseEvent'),
+    inherit('IWheelEvent', 'IMouseEvent'),
+    inherit('PointerInfo', 'PointerInfoBase'),
+
+    inherit('EngineOptions', 'WebGLContextAttributes'),
+
+
+    // 实现
+    interface('TransformNode', 'IDisposable'),
+
+    interface('TransformNode', 'ICullable'),
+
+    interface('TransformNode', 'IGetSetVerticesData'),
+    interface('AbstractMesh', 'IGetSetVerticesData'),
+
+    interface('Scene', 'IAnimatable'),
+    interface('Scene', 'IClipPlanesHolder'),
+
+    interface('Node', 'IBehaviorAware'),
+
+    interface('SpriteManager', 'ISpriteManager'),
+
+    // 依赖
+    dependent('Scene', 'Engine'),
+
+
+    dependent('ThinEngine', 'EngineOptions'),
+    dependent('ThinEngine', 'EngineFeatures'),
+    dependent('ThinEngine', 'HostInformation'),
+
+    dependent('StandardMaterial', 'Color3'),
+    dependent('StandardMaterial', 'BaseTexture'),
+    dependent('StandardMaterial', 'Vector4'),
+
+    dependent('MeshBuilder', 'Animation'),
+
+    dependent('IBehaviorAware', 'Behavior'),
+
+    dependent('MeshBuilder', 'Material'),
+
+    dependent('SpriteManager', 'Scene'),
+    dependent('Node', 'Scene'),
+
+
+    dependent('PointerInfoBase', 'IMouseEvent'),
+
+    dependent('PointerInfo', 'PickingInfo'),
+
+  ];
+  data.categories = categories;
+  data.nodes = nodes;
+  data.links = links;
+  var dom = document.getElementById("container");
+  var myChart = echarts.init(dom);
+  var app = {};
+  var option;
+  function draw (data) {
+    myChart.hideLoading();
+    option = {
+      legend: {
+        data: data.categories.map(item => item.name)
+      },
+      series: [
+        {
+          type: 'graph',
+          layout: 'force',
+          animation: false,
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{b}'
+          },
+          draggable: true,
+          data: data.nodes.map(function (node, idx) {
+            node.id = idx;
+            node.symbol = 'rect';
+            node.symbolSize = [node.name.length * 8, 15];
+            return node;
+          }),
+          categories: data.categories,
+          edges: data.links,
+          edgeSymbol: ['circle', 'arrow'], // 节点连接线两端形状
+          edgeSymbolSize: [0, 10], // 节点连接线两端大小
+          force: {
+            edgeLength: 80,
+            gravity: 0.01,
+          },
+        }
+      ],
+    };
+    myChart.setOption(option);
+  }
+  draw(data)
+  if (option && typeof option === 'object') {
+    myChart.setOption(option);
+  }
+
+</script>
+</body>
+</html>

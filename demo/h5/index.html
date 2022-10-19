@@ -129,7 +129,7 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region    -->
         <div class="tag-wrapper">
             <a id="abbr">abbr</a><br>
             表示一个缩写形式<br>
@@ -223,11 +223,13 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  b   -->
         <div class="tag-wrapper">
             <a id="b">b</a><br>
             定义粗体文本,如下效果:<br>
-            <b>粗体文本</b>
+            <div class="example">
+                <b>粗体文本</b>
+            </div>
         </div>
         <!-- endregion -->
 
@@ -306,7 +308,7 @@
         <div class="tag-wrapper">
             <a id="button">button</a><br>
             可以在button元素中添加文本或者图片,input标签创建的button则不可以<br>
-
+            <button>demo</button>
         </div>
         <!-- endregion -->
 
@@ -320,7 +322,7 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  caption   -->
         <div class="tag-wrapper">
             <a id="caption">caption</a><br>
             定义表格的标题,可以参考表格<br>
@@ -329,12 +331,14 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region center    -->
         <div class="tag-wrapper">
             <a id="center">center</a><br>
             居中文本,推荐使用css控制<br>
             示例如下:<br>
-            <center>这是居中文本</center>
+            <div class="example">
+                <center>这是居中文本</center>
+            </div>
         </div>
         <!-- endregion -->
 
@@ -348,11 +352,13 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  code   -->
         <div class="tag-wrapper">
             <a id="code">code</a><br>
             定义计算机代码文本,如下:<br>
-            <code>hello,world</code>
+            <div class="example">
+                <code>hello,world</code>
+            </div>
         </div>
         <!-- endregion -->
 
@@ -775,11 +781,13 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  i   -->
         <div class="tag-wrapper">
             <a id="i">i</a>
             定义斜体文本<br>
-            <i>斜体文本i标签展示</i>
+            <div class="example">
+                <i>斜体文本i标签展示</i>
+            </div>
         </div>
         <!-- endregion -->
 
@@ -1186,7 +1194,7 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region ins    -->
         <div class="tag-wrapper">
             <a id="ins">ins</a>-<a class="link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/ins"></a><br>
             定义一个被插入到文档的文本<br>
@@ -1725,11 +1733,14 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region small     -->
         <div class="tag-wrapper">
             <a id="small">small</a><br>
             某种小型文本,如下效果:<br>
-            普通文本<small>small</small>
+            普通文本
+            <div class="example">
+                <small>small</small>
+            </div>
         </div>
         <!-- endregion -->
 
@@ -1769,11 +1780,13 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  sub   -->
         <div class="tag-wrapper">
             <a id="sub">sub</a><br>
             下标<br>
-            普通文本<sub>下标内容</sub>
+            <div class="example">
+                普通文本<sub>下标内容</sub>
+            </div>
         </div>
         <!-- endregion -->
 
@@ -1787,22 +1800,25 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region sup    -->
         <div class="tag-wrapper">
             <a id="sup">sup</a><br>
             定义上标文本<br>
-            普通文本<sup>上标内容</sup>
+            <div class="example">
+                普通文本<sup>上标内容</sup>
+            </div>
         </div>
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  table   -->
         <div class="tag-wrapper">
             <a id="table">table</a><br>
             用来定义表格<br>
             简单的表格由tr(定义行)<a href="#th">th(粗体居中显示文本,一般用于表头)</a><a href="#td">td(左对齐普通文本)</a>组成,如下所示:<br>
             <table border="1">
                 <caption>表格标题</caption>
+                <tbody>
                 <tr>
                     <th>属性</th>
                     <th>含义</th>
@@ -1811,6 +1827,7 @@
                     <td>board</td>
                     <td>是否显示边框，"1"表示添加边框。""表示没有边框<br>""实际测试在Chrome也有边框</td>
                 </tr>
+                </tbody>
             </table>
         </div>
         <!-- endregion -->
@@ -1822,17 +1839,17 @@
             定义表格主体<br>
             <table>
 
-                <thead>
-                <tr>
-                    <td>THEAD 中的文本</td>
-                </tr>
-                </thead>
-
                 <tfoot>
                 <tr>
                     <td>TFOOT 中的文本</td>
                 </tr>
                 </tfoot>
+
+                <thead>
+                <tr>
+                    <td>THEAD 中的文本</td>
+                </tr>
+                </thead>
 
                 <tbody>
                 <tr>
@@ -1871,9 +1888,9 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  textarea   -->
         <div class="tag-wrapper">
-            <a id="textare">textare</a><br>
+            <a id="textarea">textarea</a><br>
             定义一个文本区域,效果如下:<br>
             <textarea rows="3" cols="30">
     这里是文本域中的文本 ... ... ... ...
@@ -1999,7 +2016,7 @@
         <!-- endregion -->
 
 
-        <!--   region     -->
+        <!--   region  thead   -->
         <div class="tag-wrapper">
             <a id="thead">thead</a><br>
             thead标签内部必须有tr标签<br>
@@ -2111,12 +2128,13 @@
       child: [
         {anchor: 'table', name: 'table'},
         {anchor: 'thead', name: 'thead'},
-        {anchor: 'thead', name: 'thead'},
+        {anchor: 'tbody', name: 'tbody'},
         {anchor: 'tfoot', name: 'tfoot'},
         {anchor: 'tr', name: 'tr'},
         {anchor: 'th', name: 'th'},
         {anchor: 'td', name: 'td'},
         {anchor: 'caption', name: 'caption'},
+        {anchor: 'colgroup', name: 'colgroup'},
       ]
     },
     {
@@ -2141,6 +2159,7 @@
         {anchor: 'sub', name: 'sub'},
         {anchor: 'small', name: 'small'},
         {anchor: 'code', name: 'code'},
+        {anchor: 'center', name: 'center'},
       ]
     },
     {

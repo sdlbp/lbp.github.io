@@ -198,7 +198,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/base/" itemprop="url" rel="index"><span itemprop="name">base</span></a>
+                  <a href="/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
                 </span>
             </span>
 
@@ -227,8 +227,9 @@
 <blockquote>
 <p><code>可视化模式</code> 可以理解为选择文本</p>
 </blockquote>
-<h1 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h1><h2 id="删除相关"><a href="#删除相关" class="headerlink" title="删除相关"></a>删除相关</h2><p>命令模式下<br><code>dd</code> 删除当前行<br><code>Ndd</code> 删除当前行后面N行<br><code>x</code> 删除当前光标字符<br><code>del</code> 删除光标后一个字符<br><code>{visual}x</code> 删除可视化光标字符</p>
-<h2 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h2><p>命令模式下<br><code>u</code> 撤销</p>
+<h1 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h1><h2 id="增"><a href="#增" class="headerlink" title="增"></a>增</h2><p><code>yy</code> 复制当前行到粘贴板<br><code>p</code>  从粘贴板复制到当前光标行</p>
+<h2 id="删"><a href="#删" class="headerlink" title="删"></a>删</h2><p>命令模式下<br><code>dd</code> 删除当前行<br><code>Ndd</code> 删除当前行后面N行<br><code>x</code> 删除当前光标字符<br><code>del</code> 删除光标后一个字符<br><code>{visual}x</code> 删除可视化光标字符</p>
+<h2 id="改"><a href="#改" class="headerlink" title="改"></a>改</h2><h2 id="查"><a href="#查" class="headerlink" title="查"></a>查</h2><h2 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h2><p>命令模式下<br><code>u</code> 撤销</p>
 <h2 id="光标移动"><a href="#光标移动" class="headerlink" title="光标移动"></a>光标移动</h2><p><code>ngg</code>/<code>nG</code> 去行首的第一个非空字符<br><code>e</code>按照 标点或者空格 向右移动[count]个词<br><code>E</code>按照 空格向右移动[count]个词</p>
 <h2 id="可视化模式"><a href="#可视化模式" class="headerlink" title="可视化模式"></a>可视化模式</h2><p><code>c</code> 在可视化模式下更改,选中内容</p>
 
@@ -315,7 +316,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#三种模式"><span class="nav-number">1.</span> <span class="nav-text">三种模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用指令"><span class="nav-number">2.</span> <span class="nav-text">常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#删除相关"><span class="nav-number">2.1.</span> <span class="nav-text">删除相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撤销"><span class="nav-number">2.2.</span> <span class="nav-text">撤销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#光标移动"><span class="nav-number">2.3.</span> <span class="nav-text">光标移动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化模式"><span class="nav-number">2.4.</span> <span class="nav-text">可视化模式</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#三种模式"><span class="nav-number">1.</span> <span class="nav-text">三种模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用指令"><span class="nav-number">2.</span> <span class="nav-text">常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#增"><span class="nav-number">2.1.</span> <span class="nav-text">增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删"><span class="nav-number">2.2.</span> <span class="nav-text">删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改"><span class="nav-number">2.3.</span> <span class="nav-text">改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查"><span class="nav-number">2.4.</span> <span class="nav-text">查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撤销"><span class="nav-number">2.5.</span> <span class="nav-text">撤销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#光标移动"><span class="nav-number">2.6.</span> <span class="nav-text">光标移动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化模式"><span class="nav-number">2.7.</span> <span class="nav-text">可视化模式</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -329,19 +330,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -373,7 +374,7 @@
 <div class="copyright">
   
   &copy; 2019 – 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="user"></i>
   </span>

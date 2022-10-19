@@ -1,0 +1,65 @@
+<!--旋转三角形-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<script src="twgl-full.js"></script>
+<canvas id="demo"></canvas>
+<script type="vertex" id="vertex">
+    // x1 = x * cos - y * sin
+    // y1 = y * sin + y * cos
+    uniform float u_Cos, u_Sin;
+    attribute vec4 a_Position;
+    void main () {
+        gl_Position.x = a_Position.x * u_Cos - a_Position.y * u_Sin;
+        gl_Position.y = a_Position.x * u_Sin + a_Position.y * u_Cos;
+        gl_Position.z = 1.0;
+        gl_Position.w = 1.0;
+    }
+</script>
+<script type="fragment" id="fragment">
+    void main () {
+        gl_FragColor = vec4(1,0,0,1);
+    }
+</script>
+<script>
+// 获取上下文
+const canvas = document.getElementById('demo')
+const gl = canvas.getContext('webgl');
+if (!gl) {
+  console.log('--lbp 16', 'multiPoint.html', '', 'gl error');
+}
+// 编写着色器
+const program = twgl.createProgramFromScripts(gl, ['vertex', 'fragment'])
+gl.useProgram(program);
+// 设置数据
+var vertexBuffer = gl.createBuffer()
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+  0, 0.5, -0.5, -0.5, 0.5, -0.5
+]), gl.STATIC_DRAW)
+const a_Position = gl.getAttribLocation(program, 'a_Position')
+gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0)
+gl.enableVertexAttribArray(a_Position);
+// 设置旋转角度
+const radian = 90 * Math.PI / 180;
+const cosB = Math.cos(radian)
+const sinB = Math.sin(radian)
+console.log('--lbp 52', 'rotatedTriangle.html', '', cosB);
+console.log('--lbp 53', 'rotatedTriangle.html', '', sinB);
+
+const u_Cos = gl.getUniformLocation(program, 'u_Cos')
+const u_Sin = gl.getUniformLocation(program, 'u_Sin')
+gl.uniform1f(u_Cos, cosB)
+gl.uniform1f(u_Sin, sinB)
+// 绘制
+gl.clearColor(0,0,0,1)
+gl.clear(gl.COLOR_BUFFER_BIT)
+gl.drawArrays(gl.TRIANGLES, 0, 3)
+</script>
+</body>
+</html>

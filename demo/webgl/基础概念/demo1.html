@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="../lib/utils.js" type="application/javascript"></script>
+<script src="../lib/lessonsui.js" type="application/javascript"></script>
+<canvas id="demo" style="background-color: black"></canvas>
+<script id="vertex-shader" type="notjs">
+  attribute vec4 a_position;
+  void main() {
+    gl_Position = a_position;
+  }
+
+</script>
+<script id="fragment-shader" type="notjs">
+    precision mediump float;
+    void main() {
+        gl_FragColor = vec4(1,0,0.5, 1);
+    }
+
+</script>
+<script>
+  /**
+   * 创建着色器
+   * @param gl
+   * @param type
+   * @param source
+   * @returns {WebGLShader}
+   */
+  function createShader(gl, type, source) {
+    // 创建着色器对象
+    const shader = gl.createShader(type)
+    //  提供数据源
+    gl.shaderSource(shader, source);
+    //  编译着色器
+    gl.compileShader(shader);
+    // 查看编译状态
+    const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+    if (success) {
+      return shader;
+    }
+    console.log('--lbp 36', 'index.html', 'createShader', gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader)
+  }
+
+  /**
+   * 创建着色器程序
+   * @param gl
+   * @param vertexShader
+   * @param fragmentShader
+   * @returns {WebGLProgram}
+   */
+  function createProgram(gl, vertexShader, fragmentShader) {
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    //  链接程序
+    gl.linkProgram(program);
+    const success = gl.getProgramParameter(program, gl.LINK_STATUS);
+    if (success) {
+      return program;
+    }
+    console.log('--lbp 56', 'index.html', 'createProgram', gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
+  }
+
+  function main() {
+    const canvas = document.getElementById('demo')
+    const gl = canvas.getContext('webgl')
+
+    if (gl) {
+      // 创建着色器
+      const vertexSource = document.getElementById('vertex-shader').text;
+      const fragmentSource = document.getElementById('fragment-shader').text;
+      const vShader = createShader(gl, gl.VERTEX_SHADER, vertexSource);
+      const fShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentSource);
+      //  创建着色器程序
+      const program = createProgram(gl, vShader, fShader);
+      //  设置数据
+      const positionAttributeLocation = gl.getAttribLocation(program, 'a_position');
+      const positionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      // 三个二维点坐标
+      const positions = [
+        0, 0,
+        0, 0.5,
+        0.7, 0,
+      ];
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+      webglUtils.resizeCanvasToDisplaySize(gl.canvas)
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+      gl.clearColor(0, 0, 0, 0)
+      gl.clear(gl.COLOR_BUFFER_BIT)
+      gl.useProgram(program)
+      gl.enableVertexAttribArray(positionAttributeLocation)
+      const size = 2
+      const type = gl.FLOAT
+      const normalize = false
+      const stride = 0
+      const offset = 0
+      gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset)
+      gl.drawArrays(gl.TRIANGLES, offset, 3)
+    } else {
+      console.log('--lbp 27', 'index.html', '', 'gl error');
+    }
+  }
+
+  main()
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>迭代器</title>
+</head>
+<body>
+<script>
+    function MyIteration () {
+
+    }
+    MyIteration.prototype = {
+      [Symbol.iterator]: function () {
+        console.log('--lbp 14', 'iterator_g.html', '', this);
+        let count = 5;
+        return {
+          next: () => {
+            while (count > 0) {
+              count -= 1;
+              return {done: false, value: count}
+            }
+            return {done: true}
+          }
+        };
+      }
+    }
+
+    const a = new MyIteration();
+    for (const aElement of a) {
+      console.log('--lbp 20', 'iterator_g.html', '', aElement);
+    }
+    const b = new MyIteration();
+    const bIterator = b[Symbol.iterator]();
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+    console.log('--lbp 34', 'iterator_g.html', '', bIterator.next());
+</script>
+</body>
+</html>

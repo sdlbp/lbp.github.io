@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单例模式</title>
+</head>
+<body>
+保证类只有一个实例，并提供一个访问它的全局访问点
+
+<script>
+    const Login = function (name) {
+      this.name = name;
+    }
+
+    Login.getInstance = function (name) {
+      return Login[Symbol.for('Login')] || (Login[Symbol.for('Login')] = new Login(name))
+    };
+
+    const l1 = Login.getInstance('l1');
+    const l2 = Login.getInstance('l2');
+
+    // https://zhuanlan.zhihu.com/p/156740254
+    const Login2 = function (name) {
+      if (!Login2.instance) {
+        this.name = name;
+        Login2.instance = this;
+      }
+      return Login2.instance;
+    }
+
+    const a = new Login2('1')
+    const b = new Login2('2')
+    console.log('singleton.html', '30', '', new Date(), a.name)
+    console.log('singleton.html', '30', '', new Date(), b.name)
+
+</script>
+</body>
+</html>

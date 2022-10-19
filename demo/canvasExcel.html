@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="excel"></canvas>
+<script>
+
+  function drawRect(cxt, x, y, width, height, options={fillColor:'white', borderWidth:'1', borderColor:'blue'}){
+    cxt.beginPath();
+    cxt.moveTo(x, y);
+    cxt.lineTo(x + width, y);
+    cxt.lineTo(x + width, y + height);
+    cxt.lineTo(x, y + height);
+    cxt.lineTo(x, y);
+    cxt.closePath();
+
+    cxt.lineWidth = options.borderWidth || '1';
+    cxt.strokeStyle = options.borderColor || 'blue';
+    cxt.fillStyle = options.fillColor || 'white';
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  const itemH = 10
+  const itemW = 50
+  const row = 200;
+  const col = 100;
+    const canvas = document.getElementById('excel')
+    canvas.width = itemW * col
+    canvas.height = itemH * row
+    const ctx = canvas.getContext('2d');
+
+    // 绘制excel
+    function drawExcel(ctx, row, col, itemH, itemW, current=null) {
+      for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+          const x = j * itemW
+          const y = i * itemH
+          const options = {}
+          if (current &&
+            current.x >= x &&
+            current.x < x + itemW &&
+            current.y >= y &&
+            current.y < y + itemH
+          ) {
+            options.fillColor = 'red';
+          }
+          drawRect(ctx, x, y, itemW, itemH, options);
+        }
+      }
+    }
+    drawExcel(ctx, row, col, itemH, itemW, null)
+
+    function viewportToCanvasCoordinate (e) {
+      let rect = canvas.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      return {x, y}
+    }
+
+    function excelRectByCoordinate ({x, y}) {
+      x = Math.floor(x / itemW) * itemW
+      y = Math.floor(y / itemH) * itemH
+      return {x, y, w: itemW, h: itemH}
+    }
+
+    let last = null
+    canvas.addEventListener('mousemove', {
+      handleEvent(evt) {
+        // 清空最后一次状态
+        if (last) {
+          const {x, y , w, h} = last;
+          drawRect(ctx, x, y, w, h, {
+            fillColor: 'white'
+          });
+        }
+        //  当前矩形处理
+        const current = viewportToCanvasCoordinate(evt);
+        const {x, y, w, h} = excelRectByCoordinate(current)
+        last = {x, y, w, h}
+        drawRect(ctx, x, y, w, h, {
+          fillColor: 'red'
+        });
+      }
+    }, false)
+</script>
+</body>
+</html>

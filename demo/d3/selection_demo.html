@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>selection_demo</title>
+    <script src="./lib@4.13.0/d3.js" type="application/javascript"></script>
+</head>
+<body>
+<script>
+  // TODO 类的模拟
+  d3.selection.prototype.checked = function(value) {
+    return arguments.length < 1
+      ? this.property("checked")
+      : this.property("checked", !!value);
+  };
+  debugger;
+  const a = d3.select('body');
+  console.log(a);
+</script>
+</body>
+</html>

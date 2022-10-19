@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="demo" width="100" height="100"></canvas>
+<script>
+<!--    获取上下文-->
+// 获取上下文
+const canvas = document.getElementById('demo')
+const gl = canvas.getContext('webgl')
+// 编写着色器代码
+const vertexShaderS = 'attribute vec4 a_Position;' +
+  'void main () {' +
+  'gl_Position = a_Position;' +
+  'gl_PointSize = 10.0;' +
+  '}'
+const fragmentShaderS = 'void main () {' +
+  'gl_FragColor = vec4(1,1,0,1);' +
+  '}'
+// 创建着色器
+const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+
+const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+// 编译着色器
+gl.shaderSource(vertexShader, vertexShaderS)
+gl.compileShader(vertexShader)
+if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+  console.log('--lbp 30', 'drawPoint.html', '', gl.getShaderInfoLog(vertexShader));
+}
+gl.shaderSource(fragmentShader, fragmentShaderS);
+gl.compileShader(fragmentShader)
+if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+  console.log('--lbp 30', 'drawPoint.html', '', gl.getShaderInfoLog(fragmentShader));
+}
+// 创建gl程序
+const program = gl.createProgram();
+// 链接gl程序
+gl.attachShader(program, vertexShader)
+gl.attachShader(program, fragmentShader)
+gl.linkProgram(program)
+if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+  console.log('--lbp 45', 'drawPoint.html', '', gl.getProgramInfoLog(program));
+}
+gl.validateProgram(program);
+if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
+  console.log('--lbp 49', 'drawPoint.html', '', gl.getProgramInfoLog(program));
+}
+gl.useProgram(program)
+// 设置数据
+const positionLocation = gl.getAttribLocation(program, 'a_Position');
+gl.vertexAttrib3f(positionLocation, 0.0, 0.0, 0)
+// 绘制
+gl.clearColor(0,0,0,1)
+gl.clear(gl.COLOR_BUFFER_BIT)
+gl.drawArrays(gl.POINTS, 0, 1)
+</script>
+</body>
+</html>

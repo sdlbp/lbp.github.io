@@ -203,7 +203,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/base/" itemprop="url" rel="index"><span itemprop="name">base</span></a>
+                  <a href="/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
                 </span>
             </span>
 
@@ -286,6 +286,10 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 锚点名称区分大小写</span></span><br><span class="line">[显示名称](#标题)</span><br></pre></td></tr></table></figure>
 
 <h1 id="hexo中引用自身文章"><a href="#hexo中引用自身文章" class="headerlink" title="hexo中引用自身文章"></a>hexo中引用自身文章</h1>
+
+<h1 id="隐藏文章"><a href="#隐藏文章" class="headerlink" title="隐藏文章"></a>隐藏文章</h1><p>安装插件 <code>npm install hexo-hide-posts --save</code></p>
+<p>插件配置如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hexo-hide-posts</span></span><br><span class="line">hide_posts:</span><br><span class="line">  <span class="comment"># 可以改成其他你喜欢的名字</span></span><br><span class="line">  filter: hidden</span><br><span class="line">  <span class="comment"># 指定你想要传递隐藏文章的位置，比如让所有隐藏文章在存档页面可见</span></span><br><span class="line">  <span class="comment"># 常见的位置有：index, tag, category, archive, sitemap, feed, etc.</span></span><br><span class="line">  <span class="comment"># 留空则默认全部隐藏</span></span><br><span class="line">  public_generators: []</span><br><span class="line">  <span class="comment"># 为隐藏的文章添加 noindex meta 标签，阻止搜索引擎收录</span></span><br><span class="line">  noindex: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://tding.top/archives/42c38b10.html" target="_blank" rel="noopener external nofollow noreferrer">Hexo-NexT (v7.0+) 主题配置</a><br><a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener external nofollow noreferrer">hexo-theme-next</a><br><a href="https://hexo.io/plugins/" target="_blank" rel="noopener external nofollow noreferrer">hexo-plugins</a>  </p>
 
@@ -371,7 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本命令"><span class="nav-number">1.</span> <span class="nav-text">基本命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#next-安装"><span class="nav-number">2.</span> <span class="nav-text">next 安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片"><span class="nav-number">3.</span> <span class="nav-text">图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入图片"><span class="nav-number">3.1.</span> <span class="nav-text">插入图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片名称"><span class="nav-number">3.2.</span> <span class="nav-text">图片名称</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站点标签-分类"><span class="nav-number">4.</span> <span class="nav-text">站点标签&#x2F;分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#首页展示摘要"><span class="nav-number">5.</span> <span class="nav-text">首页展示摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#阅读次数统计"><span class="nav-number">6.</span> <span class="nav-text">阅读次数统计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加gitalk评论"><span class="nav-number">7.</span> <span class="nav-text">添加gitalk评论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码块样式设置"><span class="nav-number">8.</span> <span class="nav-text">代码块样式设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌入codepen代码"><span class="nav-number">9.</span> <span class="nav-text">嵌入codepen代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按照更新时间排序"><span class="nav-number">10.</span> <span class="nav-text">按照更新时间排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo当前文章中使用锚点"><span class="nav-number">11.</span> <span class="nav-text">hexo当前文章中使用锚点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo中引用自身文章"><span class="nav-number">12.</span> <span class="nav-text">hexo中引用自身文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">13.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本命令"><span class="nav-number">1.</span> <span class="nav-text">基本命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#next-安装"><span class="nav-number">2.</span> <span class="nav-text">next 安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片"><span class="nav-number">3.</span> <span class="nav-text">图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入图片"><span class="nav-number">3.1.</span> <span class="nav-text">插入图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片名称"><span class="nav-number">3.2.</span> <span class="nav-text">图片名称</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站点标签-分类"><span class="nav-number">4.</span> <span class="nav-text">站点标签&#x2F;分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#首页展示摘要"><span class="nav-number">5.</span> <span class="nav-text">首页展示摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#阅读次数统计"><span class="nav-number">6.</span> <span class="nav-text">阅读次数统计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加gitalk评论"><span class="nav-number">7.</span> <span class="nav-text">添加gitalk评论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码块样式设置"><span class="nav-number">8.</span> <span class="nav-text">代码块样式设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌入codepen代码"><span class="nav-number">9.</span> <span class="nav-text">嵌入codepen代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#按照更新时间排序"><span class="nav-number">10.</span> <span class="nav-text">按照更新时间排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo当前文章中使用锚点"><span class="nav-number">11.</span> <span class="nav-text">hexo当前文章中使用锚点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo中引用自身文章"><span class="nav-number">12.</span> <span class="nav-text">hexo中引用自身文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隐藏文章"><span class="nav-number">13.</span> <span class="nav-text">隐藏文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">14.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -385,19 +389,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -429,7 +433,7 @@
 <div class="copyright">
   
   &copy; 2019 – 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="user"></i>
   </span>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5-1</title>
+    <script src="./lib@4.13.0/d3.js" type="application/javascript"></script>
+</head>
+<body>
+<script>
+// // region 5.1.1
+// /**
+//  * d3的链式调用语法，链式调用语法的关键在于返回自身实例对象
+//  * 以下函数的返回值都是Select实例对象
+//  * **/
+// d3.select('body').append('p').text('hello, d3');
+// // endregion
+
+// region 5.2.3
+const dataset = [5,10,15,20,25,30];
+/**
+ * 如何选择d3还不存在的元素？
+ * https://zhuanlan.zhihu.com/p/38844219
+ * 数据驱动文档-d3的思想
+ * **/
+d3.select('body')
+  .selectAll('p')
+  .data(dataset)
+  .enter()
+  .append('p')
+  .text(d => d)
+// endregion
+
+</script>
+</body>
+</html>

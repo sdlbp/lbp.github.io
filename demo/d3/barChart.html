@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bar chart</title>
+    <script src="./lib@4.13.0/d3.js" type="application/javascript"></script>
+</head>
+<body>
+<script>
+  // 加载数据
+  d3.csv('./data/alphabet.csv', (res) => {
+    const svg = d3.select('body')
+      .append('svg')
+      .attr('width', 200)
+      .attr('height', 100)
+    const accessFre = (item) => (item.frequency);
+    const accessFre = (item) => (item.frequency);
+    const sX = d3.scaleLinear().domain([d3.min(res, accessFre), d3,max(res, accessFre)]).range([0, 200])
+    const sY = d3.scaleLinear().domain([d3.min(res, accessFre), d3,max(res, accessFre)]).range([100, 100])
+  })
+</script>
+</body>
+</html>
